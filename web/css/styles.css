@@ -1,0 +1,366 @@
+/*
+color
+#ddd7c0	(221,215,192)  beige
+#cca447	(204,164,71)   doré
+#eeece9	(238,236,233)  gris
+#3b3d3e	(81,83,86)     gris foncé
+#020000	(2,0,0)        noir
+*/
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    color: #3b3d3e;
+    font-size: 1.1em;
+}
+
+a{color:inherit;}
+a:hover{
+    color:inherit;
+    text-decoration: none;
+}
+
+.container-fluid {
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2.3em;
+    margin-bottom: 30px;
+}
+
+h1 span {
+    font-size: 3em;
+    color: #ddd7c0;
+    text-shadow: 0px 10px 15px black;    
+}
+
+h2 {
+    color: #3b3d3e;
+    font-size: 2em;
+    text-decoration: underline;
+    text-transform: capitalize;
+}
+
+/*
+-----------------------------
+Section generale 
+-----------------------------
+*/
+
+.section-home {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: hsl(57, 35%, 61%);
+    background: url('../img/louvre-background.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.section-content {
+    padding: 50px;
+    position: absolute;
+    top: 0;
+    color: #3b3d3e;
+}
+
+.section-tarifs-header,
+.section-contact-header,
+.section-horaires-header {
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.hide {
+    display: none;
+}
+
+.show {
+    display: block;
+}
+
+/*
+-----------------------------
+button
+-----------------------------
+*/
+
+.btn-reserv {
+    letter-spacing: 2px;
+    font-size: 1.3em;
+    color: #eeece9;
+    font-family: sans-serif;
+    min-height: 40px;
+    width: 200px;
+    padding: 15px 0;
+    background: rgba(2, 0, 0, 0.6);
+    border: none;
+    border-bottom: 4px solid #cca447;
+    cursor: pointer;
+}
+
+.btn-form {
+    letter-spacing: 2px;
+    font-size: 1.3em;
+    color: #eeece9;
+    font-family: sans-serif;
+    min-height: 40px;
+    width: 200px;
+    padding: 15px 0;
+    background: #cca447;
+    border: none;
+    border-bottom: 4px solid rgba(2, 0, 0, 0.6);
+    cursor: pointer;
+}
+
+.btn-reserv:hover {
+    background: rgba(2, 0, 0, 0.8);
+    transition-duration: 0.4s
+}
+
+.btn-form:hover,
+.btn-horaires:hover {
+    background: hsla(42, 47%, 40%, 1);
+    transition-duration: 0.4s
+}
+
+.btn-tarifs:hover {
+    background: #aaa592;
+    transition-duration: 0.4s
+}
+
+.btn-contact {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    border: none;
+    font-family: serif;
+    background: none;
+    font-size: 2em;
+    color: #fff;
+}
+
+.btn-horaires,
+.btn-tarifs {
+    width: 50%;
+    height: 90px;
+    border: none;
+}
+
+.btn-horaires {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-color: #cca447;
+    font-size: 1.8em;
+    color: #fff;
+}
+
+.btn-tarifs {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    background-color: #ddd7c0;
+    font-size: 1.8em;
+    color: #3B3D3E;
+}
+
+.btn-horaires:hover,
+.btn-tarifs:hover,
+.btn-contact:hover {
+    cursor: pointer;
+    transition-duration: 0.4s;
+    text-decoration: underline;
+}
+
+.close {
+    font-size: 2em;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+
+/*
+-----------------------------
+Horaires
+-----------------------------
+*/
+
+.section-horaires {
+    height: 100vh;
+    background-color: #cca447;
+}
+
+.horaire-table {
+    font-size: 1.2em;
+    margin: 30px 0;
+}
+
+.horaire-table .horaire-jour {
+    font-weight: 600;
+}
+
+/*
+-----------------------------
+tarifs
+-----------------------------
+*/
+
+.tarifs-content {
+    text-align: center;
+    background-color: #fff;
+    box-shadow: hsl(64, 8%, 38%) 0px 5px 10px;
+    margin: 5px auto;
+    min-width: 250px;
+    max-width: 290px;
+}
+
+.section-tarifs-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.tarifs-content-header {
+    color: #fff;
+    font-weight: 600;
+    padding: 10px 0;
+    font-size: 1.4em;
+    background-color: #cca447;
+}
+
+.tarifs-content-body {
+    font-size: 1.2em;
+    line-height: 1.8em;
+    padding: 40px 5px;
+    background-color: #fff;
+}
+
+.section-tarifs {
+    background-color: #ddd7c0;
+}
+
+.tarifs-content-body span {
+    font-size: 2em;
+    font-weight: 600;
+}
+
+.condition {
+    margin: 40px 0 20px 0;
+    line-height: 1.4em;
+}
+
+.condition::before {
+    content: '*';
+    font-size: 1.6em;
+}
+
+/*
+-----------------------------
+Contact
+-----------------------------
+*/
+
+.section-content-contact {
+    background-color: #eeece9;
+    height: 100vh;
+}
+
+.section-content-contact h2 {
+    color: #3b3d3e;
+}
+
+.contact-section-content {}
+
+
+
+
+
+/*
+-----------------------------
+Form Billeterie
+-----------------------------
+*/
+.form-container {
+    display: block;
+    background-color: #eeece9;
+    overflow-y: scroll;
+    padding: 30px;
+}
+
+.form-container h3 {
+    text-decoration: underline;
+}
+
+.form-container h3 {
+    text-align: center;
+}
+/*
+-----------------------------
+Medium devices (desktops, 992px and up)
+-----------------------------
+*/
+
+@media (min-width: 992px) {
+    h1 {
+        font-size: 2.5em;
+    }
+    .btn-horaires,
+    .btn-tarifs {
+        width: 300px;
+        height: 75px;
+        border: none;
+    }
+    .btn-tarifs {
+        left: 300px;
+    }
+    .section-home {
+        position: relative;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-size: cover;
+        height: 100vh;
+    }
+    .section-content {
+        top: unset;
+    }
+    .section-horaires {
+        position: fixed;
+        bottom: 0;
+        height: 80%;
+    }
+    .section-tarifs {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        max-width: 80%;
+        height: 80%;
+    }
+    .section-content {
+        box-shadow: 15px -15px 39px 2px rgba(0, 0, 0, 0.75);
+    }
+    .section-content-contact {
+        position: fixed;
+        top: 0px;
+        right: 0%;
+        max-width: 50%;
+        height: 100%;
+    }
+    .tarifs-content {
+        text-align: center;
+        background-color: #fff;
+        box-shadow: hsl(64, 8%, 38%) 0px 5px 10px;
+        margin: 5px auto;
+        min-width: 170px;
+    }
+}

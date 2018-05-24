@@ -33,3 +33,7 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+
+    OC\LouvreBundle\DataFixtures\:
+        resource: '../../src/OC/LouvreBundle/DataFixtures'
+        tags: ['doctrine.fixture.orm']

@@ -1,0 +1,164 @@
+<?php
+
+namespace OC\LouvreBundle\Entity;
+use Symfony\Component\Validator\Constraints as Assert;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Ticket
+ *
+ * @ORM\Table(name="ticket")
+ * @ORM\Entity(repositoryClass="OC\LouvreBundle\Repository\TicketRepository")
+ */
+class Ticket
+{   
+    public function __construct()
+    {
+    }
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="halfDay", type="boolean")
+     * @Assert\Type("bool")
+     */
+    private $halfDay = false;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="price", type="integer")
+     * @Assert\Type("integer")
+     */
+    private $price = 16;
+
+    /** 
+     * @ORM\ManyToOne(targetEntity="OC\LouvreBundle\Entity\Commande", inversedBy="tickets", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank()
+    */
+    private $commande;
+
+    /** 
+     * @ORM\ManyToOne(targetEntity="OC\LouvreBundle\Entity\Visitor", inversedBy="tickets", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank()
+    */
+    private $visitor;
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set halfDay
+     *
+     * @param boolean $halfDay
+     *
+     * @return Ticket
+     */
+    public function setHalfDay($halfDay)
+    {
+        $this->halfDay = $halfDay;
+
+        return $this;
+    }
+
+    /**
+     * Get halfDay
+     *
+     * @return bool
+     */
+    public function getHalfDay()
+    {
+        return $this->halfDay;
+    }
+
+    /**
+     * Set price
+     *
+     * @param integer $price
+     *
+     * @return Ticket
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Get price
+     *
+     * @return int
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * Set commande
+     *
+     * @param \OC\LouvreBundle\Entity\Commande $commande
+     *
+     * @return Ticket
+     */
+    public function setCommande(\OC\LouvreBundle\Entity\Commande $commande)
+    {
+        $this->commande = $commande;
+
+        return $this;
+    }
+
+    /**
+     * Get commande
+     *
+     * @return \OC\LouvreBundle\Entity\Commande
+     */
+    public function getCommande()
+    {
+        return $this->commande;
+    }
+
+    /**
+     * Set visitor
+     *
+     * @param \OC\LouvreBundle\Entity\Visitor $visitor
+     *
+     * @return Ticket
+     */
+    public function setVisitor(\OC\LouvreBundle\Entity\Visitor $visitor)
+    {
+        $this->visitor = $visitor;
+
+        return $this;
+    }
+
+    /**
+     * Get visitor
+     *
+     * @return \OC\LouvreBundle\Entity\Visitor
+     */
+    public function getVisitor()
+    {
+        return $this->visitor;
+    }
+}

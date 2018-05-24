@@ -1,0 +1,3 @@
+oc_louvre_homepage:
+    path:     /
+    defaults: { _controller: OCLouvreBundle:Default:index }

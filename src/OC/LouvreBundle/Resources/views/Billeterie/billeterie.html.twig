@@ -1,0 +1,53 @@
+{% extends '@OCLouvre/Default/index.html.twig' %}
+
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+
+        <section class="section-home" id="home">
+            <h1>Musée du
+                <br>
+                <span>LOUVRE</span>
+            </h1>
+            <div class="form-container col-lg-8 col-xs-12 col-md-10 col-sm-10">
+                <h3>Billeterie:</h3>
+
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
+
+                <div class="form-group">
+                    {{ form_label(form.dateVisite, "Date de votre visite", {'label_attr': {'class': 'control-label'}}) }}
+                    {{ form_errors(form.dateVisite) }}
+                    {{ form_widget(form.dateVisite, {'attr': {'class': 'form-control datepicker'}}) }}
+                </div>
+
+                <hr>
+                
+                <div class="form-group">
+                    {{ form_errors(form.tickets) }}
+                    {{ form_widget(form.tickets, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <a href="#" id="add_ticket" class="btn btn-default my-3 mb-3 text-primary">Ajouter un billet</a>
+                
+                <div class="form-group">
+                    {{ form_label(form.emailSend, "Email de réception", {'label_attr': {'class': 'control-label mt-3'}}) }}
+                    {{ form_errors(form.emailSend) }}
+                    {{ form_widget(form.emailSend, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                {{ form_widget(form.save, {'attr': {'class': 'btn btn-lg btn-warning mt-3 mb-3 float-right text-white'}}) }}
+                {{ form_rest(form) }}
+                {{ form_end(form) }}
+            </div>
+        </section>
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

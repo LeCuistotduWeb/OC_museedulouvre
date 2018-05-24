@@ -2,3 +2,6 @@ services:
 #    oc_louvre.example:
 #        class: OC\LouvreBundle\Example
 #        arguments: ["@service_id", "plain_value", "%parameter%"]
+
+    oc_louvre.calculprice:
+        class: OC\LouvreBundle\Service\CalculPrice

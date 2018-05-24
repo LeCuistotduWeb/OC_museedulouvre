@@ -5,4 +5,7 @@ oc_louvre_homepage:
 oc_louvre_newCommande:
     path:     /order
     defaults: { _controller: OCLouvreBundle:Default:newCommande }
-    
+
+oc_louvre_testService:
+    path:     /testservice
+    defaults: { _controller: OCLouvreBundle:Default:testService }

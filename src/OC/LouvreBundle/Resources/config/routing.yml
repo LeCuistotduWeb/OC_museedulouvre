@@ -10,6 +10,15 @@ oc_louvre_newCommande:
     path:     /order
     defaults: { _controller: OCLouvreBundle:Default:newCommande }
 
+oc_louvre_mailer_send:
+    path:     /send/{id}
+    defaults: { _controller: OCLouvreBundle:Default:sendMail }
+
+
+oc_louvre_mailer_view:
+    path:     /mail/{id}
+    defaults: { _controller: OCLouvreBundle:Default:mail }
+
 oc_louvre_testService:
     path:     /testservice
     defaults: { _controller: OCLouvreBundle:Default:testService }

@@ -36,8 +36,8 @@ class VisitorType extends AbstractType
                 'format' => 'dd-MM-yyyy',
                 ])
             ->add('country', CountryType::class, [
-                'label'  => false,
-                'placeholder' => 'Votre pays : ',
+                'label'  => 'Votre pays : ',
+                'preferred_choices' => array('FR'),
             ])
             ->add('reduction', CheckboxType::class, [
                 'label' => 'Je bénéficie d\'un tarif réduit.',

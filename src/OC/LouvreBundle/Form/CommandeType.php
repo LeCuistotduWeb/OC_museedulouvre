@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
 class CommandeType extends AbstractType
 {
@@ -31,12 +32,16 @@ class CommandeType extends AbstractType
                 'entry_type'   => TicketType::class,
                 'allow_add'    => true,
                 'allow_delete' => true,
+                'label'=> false,
                 'by_reference' => false,
                 'prototype' => true,
             ])
             
-            ->add('emailSend', EmailType::class,[
-                'attr' => ['class' => 'datepicker','placeholder' => 'Email de réception de vos billet.'],
+            ->add('emailSend', RepeatedType::class,[
+                'type' => EmailType::class,
+                'invalid_message' => 'Les emails ne sont pas identique.',
+                'first_options'  => array('label' => 'Email de réception des billets'),
+                'second_options' => array('label' => 'Confirmer l\'adress email de reception '),
             ])
             
             ->add('save', SubmitType::class, array('label' => 'Suivant'));

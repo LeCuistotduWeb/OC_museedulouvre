@@ -47,13 +47,21 @@ h2 {
     text-decoration: underline;
     text-transform: capitalize;
 }
-
+ul{
+    list-style: none;
+}
 /*
 -----------------------------
 Section generale 
 -----------------------------
 */
-
+#messageFlash {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 999;
+}
 .section-home {
     height: 100vh;
     display: flex;
@@ -362,5 +370,9 @@ Medium devices (desktops, 992px and up)
         box-shadow: hsl(64, 8%, 38%) 0px 5px 10px;
         margin: 5px auto;
         min-width: 170px;
+    }
+    #messageFlash {
+        width: 75%;
+        margin: 0 auto;
     }
 }

@@ -1,4 +1,5 @@
 $(function() {
+
   $('.btn-horaires').on( "click", function() {
     $('#horaires').removeClass('hide');
   });
@@ -21,3 +22,7 @@ $(function() {
     $('#contact').addClass('hide');
   });
 });
+
+
+
+

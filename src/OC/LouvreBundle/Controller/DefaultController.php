@@ -23,27 +23,66 @@ class DefaultController extends Controller
      */
     public function newCommandeAction(Request $request)
     {
-
         $form = $this->get('form.factory')->create(CommandeType::class, new Commande());
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
             
             $commande = $form->getData();
             
+            //enregistrement en base de donnée
             $em = $this->getDoctrine()->getManager();
             $em->persist($commande);
             $em->flush();
-            $em->flush();
-
-            return $this->render('@OCLouvre/Default/index.html.twig');
+            
+            // envoi de la commande par mail
+            $sendmail = $this->get('oc_louvre.email_commande')->sendMail($commande);
+            
+            // message success validation de commande
+            $this->addFlash('success', 'Votre commande est bien enregistrée. Vos billets on été envoyés par email.');
+            
+            // redirige vers la homepage
+            return $this->redirectToRoute('oc_louvre_homepage');
+            //return $this->redi('@OCLouvre/Default/index.html.twig');
         }
 
-        return $this->render('@OCLouvre/Billeterie/billeterie.html.twig', [
+        return $this->render('@OCLouvre/Billeterie/billeterie.html.twig', 
+            [
             'form' => $form->createView(),
-        ]
-
+            ]
         );
+    }
+
+    /**
+     * envoyer une commande par email
+     */
+    public function sendMailAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        // recupère la commande $id
+        $commande = $em->getRepository('OCLouvreBundle:Commande')->find($id);
+
+        // envoi de la commande par mail
+        $sendmail = $this->get('oc_louvre.email_commande')->sendMail($commande);
+        
+        // message success validation de commande
+        $this->addFlash('success', 'Votre commande est bien enregistrée. Vos billets on été envoyés par email.');
+
+        return $this->render('@OCLouvre/Default/index.html.twig');
+    }
+
+    /**
+     * visualiser le mail d'une commande
+     */
+    public function mailAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $commande = $em->getRepository('OCLouvreBundle:Commande')->find($id);
+        $listTickets = $commande->getTickets();
+
+        return $this->render('@OCLouvre/Email/emailCommande.html.twig', ['listTickets' => $listTickets]);
     }
 
     public function testServiceAction()

@@ -26,15 +26,22 @@
 
                 <hr>
                 
-                <div class="form-group">
-                    {{ form_errors(form.tickets) }}
-                    {{ form_widget(form.tickets, {'attr': {'class': 'form-control'}}) }}
-                </div>
 
-                <a href="#" id="add_ticket" class="btn btn-default my-3 mb-3 text-primary">Ajouter un billet</a>
+                {# store the prototype on the data-prototype attribute #}
+                <ul id="ticket-fields-list" class="form-group" 
+                    data-prototype="{{ form_widget(form.tickets.vars.prototype)|e }}" 
+                    data-widget-tags="{{ '<li></li>'|e }}">
+                {% for ticketField in form.tickets %}
+                
+                    <li>
+                        {{ form_widget(ticketField) }}
+                    </li>
+                {% endfor %}
+                </ul>
+
+                <a href="#" class="btn btn-default my-3 mb-3 text-primary add-another-collection-widget" data-list="#ticket-fields-list">Ajouter un billet</a>
                 
                 <div class="form-group">
-                    {{ form_label(form.emailSend, "Email de réception", {'label_attr': {'class': 'control-label mt-3'}}) }}
                     {{ form_errors(form.emailSend) }}
                     {{ form_widget(form.emailSend, {'attr': {'class': 'form-control'}}) }}
                 </div>

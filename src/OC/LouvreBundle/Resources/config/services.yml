@@ -5,3 +5,7 @@ services:
 
     oc_louvre.calculprice:
         class: OC\LouvreBundle\Service\CalculPrice
+
+    oc_louvre.email_commande:
+        class: OC\LouvreBundle\Service\EmailCommande
+        arguments: ["@mailer", '@twig']

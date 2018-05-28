@@ -29,21 +29,23 @@ class DefaultController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             
             $commande = $form->getData();
-            
+            dump($commande);
             //enregistrement en base de donnée
             $em = $this->getDoctrine()->getManager();
             $em->persist($commande);
             $em->flush();
             
             // envoi de la commande par mail
-            $sendmail = $this->get('oc_louvre.email_commande')->sendMail($commande);
+            $this->get('oc_louvre.email_commande')->sendMail($commande);
             
             // message success validation de commande
             $this->addFlash('success', 'Votre commande est bien enregistrée. Vos billets on été envoyés par email.');
             
             // redirige vers la homepage
-            return $this->redirectToRoute('oc_louvre_homepage');
-            //return $this->redi('@OCLouvre/Default/index.html.twig');
+            return $this->redirectToRoute('oc_louvre_stripe_payment', 
+                [
+                    'commande' => $commande,
+                ]);
         }
 
         return $this->render('@OCLouvre/Billeterie/billeterie.html.twig', 
@@ -85,14 +87,26 @@ class DefaultController extends Controller
         return $this->render('@OCLouvre/Email/emailCommande.html.twig', ['listTickets' => $listTickets]);
     }
 
-    public function testServiceAction()
-    {
-        //test du service permettant de choisir le tgarif du billet en fonction de la date anniversaire
-        $dateBirthday = '1991-06-01';
-        $price = $this->get('oc_louvre.calculprice')->calculeTicketPrices($dateBirthday);
-        
-        dump($price);
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function stripePaymentAction(Request $request)
+    {   
+        // recuperer la commande
+        $em = $this->getDoctrine()->getManager();
+        // recupère la commande $id
+        $commande = $em->getRepository('OCLouvreBundle:Commande')->find(5);
 
-        return $this->render('@OCLouvre/Default/index.html.twig');
+        \Stripe\Stripe::setApiKey("sk_test_GvS4ZcdJiZ22G4hXTjbmaHW1");
+
+        $charge = \Stripe\Charge::create(array(
+        "amount" => $commande->getPriceTotal()*100,
+        "currency" => "eur",
+        "source" => "tok_amex", // obtained with Stripe.js
+        "description" => "paiment commande code : ". $commande->getCodeReservation(),
+        ));
+
+        return $this->render('@OCLouvre/Stripe/stripe.html.twig', ['commande'=>$commande]);
     }
 }

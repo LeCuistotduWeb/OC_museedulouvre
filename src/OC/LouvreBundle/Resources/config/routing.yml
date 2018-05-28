@@ -19,6 +19,10 @@ oc_louvre_mailer_view:
     path:     /mail/{id}
     defaults: { _controller: OCLouvreBundle:Default:mail }
 
+oc_louvre_stripe_payment:
+    path:     /payment
+    defaults: { _controller: OCLouvreBundle:Default:stripePayment }
+
 oc_louvre_testService:
     path:     /testservice
     defaults: { _controller: OCLouvreBundle:Default:testService }

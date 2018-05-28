@@ -10,27 +10,27 @@ class CalculPrice
         $interval = $this->calculAge($birthday);
 
         if($interval < 4){  //tarif baby
-            return $price = 0;
+            return $price = 0.00;
         }elseif ($interval > 4 && $interval < 12) { //tarif enfant
-            return $price = 8;
+            return $price = 8.00;
         }elseif ($interval > 12 && $interval < 60) {    //tarif normal
-            return $price = 16;
+            return $price = 16.00;
         }elseif ($interval > 60) {  //tarif senior
-            return $price = 12;
+            return $price = 12.00;
         }
         else {
-            return $price = 16;
+            return $price = 16.00;
         }
     }
 
-    public function reductionTicketPricesPourcent($price){
-        $reduction = $price * 0.25;
-        $price -=  $reduction;
-        return $price;
-    }
+//    public function reductionTicketPricesPourcent($price){
+//        $reduction = $price * 0.25;
+//        $price -=  $reduction;
+//        return $price;
+//    }
 
     public function reductionTicketPrices(){
-        return $price = 10;
+        return $price = 10.00;
     }
 
     public function test(){

@@ -286,12 +286,6 @@ Contact
     color: #3b3d3e;
 }
 
-.contact-section-content {}
-
-
-
-
-
 /*
 -----------------------------
 Form Billeterie
@@ -299,7 +293,7 @@ Form Billeterie
 */
 .form-container {
     display: block;
-    background-color: #eeece9;
+    background-color: #ffffff;
     overflow-y: scroll;
     padding: 30px;
 }

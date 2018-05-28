@@ -3,6 +3,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
     
+    #database
     database_host: 127.0.0.1
     database_port: ~
     database_name: symfony
@@ -11,7 +12,8 @@ parameters:
     
     # You should uncomment this if you want to use pdo_sqlite
     #database_path: '%kernel.project_dir%/var/data/data.sqlite'
-
+    
+    #mailer
     mailer_transport: smtp
     mailer_host: 127.0.0.1
     mailer_user: ~
@@ -19,5 +21,9 @@ parameters:
     mailer_encryption: ssl
     mailer_auth_mode: login
 
+    #stripe
+    stripe_public_key: pk_test_xxxxxxxxxxxxxxxxxxxxxxxx
+    stripe_secret_key: sk_test_xxxxxxxxxxxxxxxxxxxxxxxx
+    
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt

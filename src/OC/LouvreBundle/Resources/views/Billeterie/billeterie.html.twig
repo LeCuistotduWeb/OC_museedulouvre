@@ -12,8 +12,11 @@
                 <br>
                 <span>LOUVRE</span>
             </h1>
-            <div class="form-container card col-lg-6 col-xs-12 col-md-10 col-sm-10">
-                <h3>Billeterie:</h3>
+
+            <a href="{{ path('oc_louvre_homepage')}}" class="btn-retour position-fixed fixed-top text-white m-4 font-weight-bold">Accueil</a>
+
+            <div class="container card">
+                <h3 class="mt-3">Billeterie:</h3>
 
                 {{ form_start(form) }}
                 {{ form_errors(form) }}
@@ -25,28 +28,18 @@
                 </div>
 
                 <hr>
-                
 
-                {# store the prototype on the data-prototype attribute #}
-                <ul id="ticket-fields-list" class="form-group" 
-                    data-prototype="{{ form_widget(form.tickets.vars.prototype)|e }}" 
-                    data-widget-tags="{{ '<li></li>'|e }}">
-                {% for ticketField in form.tickets %}
-                
-                    <li>
-                        {{ form_widget(ticketField) }}
-                    </li>
-                {% endfor %}
-                </ul>
+                <div class="well">
+                    {{ form_row(form.tickets) }}
+                    <a href="#" id="add_category" class="btn btn-default my-3 mb-3 text-primary">Ajouter un ticket</a>
+                </div>
 
-                <a href="#" class="btn btn-default my-3 mb-3 text-primary add-another-collection-widget" data-list="#ticket-fields-list">Ajouter un billet</a>
-                
                 <div class="form-group">
                     {{ form_errors(form.emailSend) }}
                     {{ form_widget(form.emailSend, {'attr': {'class': 'form-control'}}) }}
                 </div>
 
-                {{ form_widget(form.save, {'attr': {'class': 'btn btn-lg btn-warning mt-3 mb-3 float-right text-white'}}) }}
+                {{ form_widget(form.save, {'attr': {'class': 'btn btn-lg btn-warning my-3 float-right text-white'}}) }}
                 {{ form_rest(form) }}
                 {{ form_end(form) }}
             </div>

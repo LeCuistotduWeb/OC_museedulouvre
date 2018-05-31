@@ -9,3 +9,6 @@ services:
     oc_louvre.email_commande:
         class: OC\LouvreBundle\Service\EmailCommande
         arguments: ["@mailer", '@twig']
+
+    oc_louvre.stripe_payement:
+        class: OC\LouvreBundle\Service\StripePayement

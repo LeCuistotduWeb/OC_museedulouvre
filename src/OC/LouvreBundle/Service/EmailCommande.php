@@ -23,7 +23,11 @@ class EmailCommande extends \Twig_Extension
             ->setSubject('Vos Billets - Musee du LOUVRE')
             ->setFrom('contact@louvre.fr')
             ->setTo($commande->getEmailSend())
-            ->setBody($this->templating->render('@OCLouvre/Email/emailCommande.html.twig', ['listTickets' => $listTickets]))
+            ->setBody($this->templating->render('@OCLouvre/Email/emailCommande.html.twig',
+                [
+                    'listTickets' => $listTickets,
+                    'commande' => $commande,
+                ]))
             ->setcharset('utf-8')
             ->setContentType("text/html");
 

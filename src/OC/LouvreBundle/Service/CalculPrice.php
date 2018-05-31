@@ -5,9 +5,9 @@ namespace OC\LouvreBundle\Service;
 class CalculPrice
 {
     public function calculeTicketPrices($birthday){
-        $aujourdhui = date('Y-m-d');
+
         //calcule le nombre d'années entre la date du jour et la date d'anniversaire
-        $interval = $this->calculAge($birthday);
+        $interval = $this->calculeAge($birthday);
 
         if($interval < 4){  //tarif baby
             return $price = 0.00;
@@ -23,25 +23,24 @@ class CalculPrice
         }
     }
 
-//    public function reductionTicketPricesPourcent($price){
-//        $reduction = $price * 0.25;
-//        $price -=  $reduction;
-//        return $price;
-//    }
+    public function reductionTicketPricesPourcent($price){
+        $reduction = $price * 0.25;
+        $price -=  $reduction;
+        return $price;
+    }
 
     public function reductionTicketPrices(){
         return $price = 10.00;
     }
 
-    public function test(){
-        return 'ca fonctionne bien';
-    }
+//    public function reductionHalfday($price){
+//        return $price/2;
+//    }
 
-    public function calculAge($dateBirthday)
+    public function calculeAge($birthday)
     {
-        $datetime1 = new \DateTime();
-        $datetime2 = new \DateTime($dateBirthday);
-        $age = $datetime1->diff($datetime2);
+        $today = new \DateTime();
+        $age = $today->diff($birthday);
         return  $age->format('%y');
     }
 }

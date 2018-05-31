@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 use OC\LouvreBundle\Entity\Commande;
 use OC\LouvreBundle\Form\CommandeType;
 
+use Stripe\Stripe;
+
 class DefaultController extends Controller
 {
     /**
@@ -29,19 +31,32 @@ class DefaultController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             
             $commande = $form->getData();
-            dump($commande);
             //enregistrement en base de donnée
             $em = $this->getDoctrine()->getManager();
             $em->persist($commande);
+
+            $commande->setCodeReservation($commande->createCodeReserv());
+
+            foreach($commande->getTickets() as $ticket){
+
+                $dateBirthday = $ticket->getVisitor()->getDateBirthday();
+                $halfDay = $ticket->getHalfday();
+                $reduction = $ticket->getVisitor()->getReduction();
+
+                $ticket->setPrice($this->get('oc_louvre.calculprice')->calculeTicketPrices($dateBirthday));
+
+                if($halfDay == 1){
+                    $ticket->setPrice($this->get('oc_louvre.calculprice')->reductionHalfday());
+                }
+                if($reduction == 1){
+                    $ticket->setPrice($this->get('oc_louvre.calculprice')->reductionTicketPrices());
+                }
+
+            }
             $em->flush();
-            
-            // envoi de la commande par mail
-            $this->get('oc_louvre.email_commande')->sendMail($commande);
-            
-            // message success validation de commande
-            $this->addFlash('success', 'Votre commande est bien enregistrée. Vos billets on été envoyés par email.');
-            
-            // redirige vers la homepage
+            dump($commande);
+
+            // redirige vers la page de payement
             return $this->redirectToRoute('oc_louvre_stripe_payment', 
                 [
                     'commande' => $commande,
@@ -64,7 +79,6 @@ class DefaultController extends Controller
 
         // recupère la commande $id
         $commande = $em->getRepository('OCLouvreBundle:Commande')->find($id);
-
         // envoi de la commande par mail
         $sendmail = $this->get('oc_louvre.email_commande')->sendMail($commande);
         
@@ -84,7 +98,11 @@ class DefaultController extends Controller
         $commande = $em->getRepository('OCLouvreBundle:Commande')->find($id);
         $listTickets = $commande->getTickets();
 
-        return $this->render('@OCLouvre/Email/emailCommande.html.twig', ['listTickets' => $listTickets]);
+        return $this->render('@OCLouvre/Email/emailCommande.html.twig',
+            [
+                'listTickets' => $listTickets,
+                'commande' => $commande,
+            ]);
     }
 
     /**
@@ -92,21 +110,30 @@ class DefaultController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function stripePaymentAction(Request $request)
-    {   
+    {
         // recuperer la commande
         $em = $this->getDoctrine()->getManager();
         // recupère la commande $id
-        $commande = $em->getRepository('OCLouvreBundle:Commande')->find(5);
+        $commande = $em->getRepository('OCLouvreBundle:Commande')->find(1);
 
-        \Stripe\Stripe::setApiKey("sk_test_GvS4ZcdJiZ22G4hXTjbmaHW1");
+        //récupère les tickets
+        $listTickets = $commande->getTickets();
 
-        $charge = \Stripe\Charge::create(array(
-        "amount" => $commande->getPriceTotal()*100,
-        "currency" => "eur",
-        "source" => "tok_amex", // obtained with Stripe.js
-        "description" => "paiment commande code : ". $commande->getCodeReservation(),
-        ));
+        // recupèration du token
+        $token = $request->request->get('stripeToken');
+        // envoi de la commande par mail
+        $this->get('oc_louvre.stripe_payement')->procededPayement($token, $commande);
 
-        return $this->render('@OCLouvre/Stripe/stripe.html.twig', ['commande'=>$commande]);
+        // envoi de la commande par mail
+        $this->get('oc_louvre.email_commande')->sendMail($commande);
+
+        // message success validation de commande
+        $this->addFlash('success', 'Votre commande est bien enregistrée. Vos billets on été envoyés par email.');
+
+        return $this->render('@OCLouvre/Stripe/stripe.html.twig',
+            [
+                'commande'=>$commande,
+                'listTickets'=>$listTickets,
+            ]);
     }
 }

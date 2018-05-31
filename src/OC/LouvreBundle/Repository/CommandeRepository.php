@@ -10,4 +10,5 @@ namespace OC\LouvreBundle\Repository;
  */
 class CommandeRepository extends \Doctrine\ORM\EntityRepository
 {
+
 }

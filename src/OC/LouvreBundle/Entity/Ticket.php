@@ -40,7 +40,7 @@ class Ticket
      * @ORM\Column(name="price", type="float")
      * @Assert\Type("float")
      */
-    private $price = 12.00;
+    private $price;
 
     /** 
      * @ORM\ManyToOne(targetEntity="OC\LouvreBundle\Entity\Commande", inversedBy="tickets", cascade={"persist", "remove"})

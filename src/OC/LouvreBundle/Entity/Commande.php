@@ -53,14 +53,6 @@ class Commande
      */
     private $codeReservation;
 
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="PriceTotal", type="float")
-     * @Assert\Type("float")
-     */
-    private $priceTotal = 12.00;
-
     /** 
      * @ORM\OneToMany(targetEntity="OC\LouvreBundle\Entity\Ticket", mappedBy="commande", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
@@ -150,30 +142,6 @@ class Commande
     }
 
     /**
-     * Set priceTotal
-     *
-     * @param float $priceTotal
-     *
-     * @return Commande
-     */
-    public function setPriceTotal($priceTotal)
-    {
-        $this->priceTotal = $priceTotal;
-
-        return $this;
-    }
-
-    /**
-     * Get priceTotal
-     *
-     * @return float
-     */
-    public function getPriceTotal()
-    {
-        return $this->priceTotal;
-    }
-
-    /**
      * Add ticket
      *
      * @param \OC\LouvreBundle\Entity\Ticket $ticket
@@ -207,5 +175,19 @@ class Commande
     public function getTickets()
     {
         return $this->tickets;
+    }
+
+
+    public function getPriceTotal(){
+        $priceTotal = 0;
+        foreach($this->getTickets() as $ticket ){
+            $priceTotal += $ticket->getPrice();
+        }
+        return $priceTotal;
+    }
+    public function createCodeReserv(){
+        $date = $this->getDateVisite();
+        $id = $this->getId();
+        return 'D' . date_format($date, 'dmY') . '-C' . rand();
     }
 }

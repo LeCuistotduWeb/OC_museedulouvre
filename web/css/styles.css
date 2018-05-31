@@ -63,7 +63,7 @@ Section generale
     z-index: 999;
 }
 .section-home {
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -116,7 +116,7 @@ button
     border-bottom: 4px solid #cca447;
     cursor: pointer;
 }
-
+.btn-retour{font-size: 1.4em;}
 .btn-form {
     letter-spacing: 2px;
     font-size: 1.3em;
@@ -331,7 +331,6 @@ Medium devices (desktops, 992px and up)
         right: 0;
         bottom: 0;
         background-size: cover;
-        height: 100vh;
     }
     .section-content {
         top: unset;

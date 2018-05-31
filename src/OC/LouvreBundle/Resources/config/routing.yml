@@ -2,11 +2,7 @@ oc_louvre_homepage:
     path:     /
     defaults: { _controller: OCLouvreBundle:Default:index }
 
-oc_louvre_newCommande:
-    path:     /order
-    defaults: { _controller: OCLouvreBundle:Default:newCommande }
-
-oc_louvre_newCommande:
+oc_louvre_new_commande:
     path:     /order
     defaults: { _controller: OCLouvreBundle:Default:newCommande }
 

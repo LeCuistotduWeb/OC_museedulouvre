@@ -1,28 +1,65 @@
-// add-collection-widget.js
-$(document).ready(function () {
-    $('.add-another-collection-widget').click(function (e) {
-        e.preventDefault();
-        var list = $($(this).attr('data-list'));
-        // Try to find the counter of the list
-        var counter = list.data('widget-counter') | list.children().length;
-        // If the counter does not exist, use the length of the list
-        if (!counter) {
-            counter = list.children().length;
-        }
+$(document).ready(function() {
+    // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
+    var $container = $('div#oc_louvrebundle_commande_tickets');
 
-        // grab the prototype template
-        var newWidget = list.attr('data-prototype');
-        // replace the "__name__" used in the id and name of the prototype
-        // with a number that's unique to your emails
-        // end name attribute looks like name="contact[emails][2]"
-        newWidget = newWidget.replace(/__name__/g, counter);
-        // Increase the counter
-        counter++;
-        // And store it, the length cannot be used if deleting widgets is allowed
-        list.data(' widget-counter', counter);
+    // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
+    var index = $container.find(':input').length;
 
-        // create a new list element and add it to the list
-        var newElem = $(list.attr('data-widget-tags')).html(newWidget);
-        newElem.appendTo(list);
+    // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+    $('#add_category').click(function(e) {
+        addCategory($container);
+
+        e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+        return false;
     });
+
+    // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
+    if (index == 0) {
+        addCategory($container);
+    } else {
+        // S'il existe déjà des catégories, on ajoute un lien de suppression pour chacune d'entre elles
+        $container.children('div').each(function() {
+            addDeleteLink($(this));
+        });
+    }
+
+    // La fonction qui ajoute un formulaire CategoryType
+    function addCategory($container) {
+        // Dans le contenu de l'attribut « data-prototype », on remplace :
+        // - le texte "__name__label__" qu'il contient par le label du champ
+        // - le texte "__name__" qu'il contient par le numéro du champ
+        var template = $container.attr('data-prototype')
+            .replace(/__name__label__/g, 'Billet n°' + (index+1))
+            .replace(/__name__/g,        index)
+        ;
+
+        // On crée un objet jquery qui contient ce template
+        var $prototype = $(template);
+
+        // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
+        addDeleteLink($prototype);
+
+        // On ajoute le prototype modifié à la fin de la balise <div>
+        $container.append($prototype);
+
+        // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+        index++;
+    }
+
+    // La fonction qui ajoute un lien de suppression d'une catégorie
+    function addDeleteLink($prototype) {
+        // Création du lien
+        var $deleteLink = $('<a href="#" class="btn btn-danger">Supprimer</a>');
+
+        // Ajout du lien
+        $prototype.append($deleteLink);
+
+        // Ajout du listener sur le clic du lien pour effectivement supprimer la catégorie
+        $deleteLink.click(function(e) {
+            $prototype.remove();
+
+            e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+            return false;
+        });
+    }
 });

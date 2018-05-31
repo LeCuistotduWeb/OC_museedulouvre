@@ -4,22 +4,30 @@ namespace OC\LouvreBundle\Service;
 
 class CalculPrice
 {
+
+    private $prices;
+
+    public function __construct(array $prices)
+    {
+        $this->prices = $prices;
+    }
+
     public function calculeTicketPrices($birthday){
 
         //calcule le nombre d'années entre la date du jour et la date d'anniversaire
         $interval = $this->calculeAge($birthday);
 
-        if($interval < 4){  //tarif baby
-            return $price = 0.00;
-        }elseif ($interval > 4 && $interval < 12) { //tarif enfant
-            return $price = 8.00;
+        if($interval < 4){                              //tarif baby
+            return $price = $this->prices['baby'];
+        }elseif ($interval > 4 && $interval < 12) {     //tarif enfant
+            return $price = $this->prices['enfant'];
         }elseif ($interval > 12 && $interval < 60) {    //tarif normal
-            return $price = 16.00;
-        }elseif ($interval > 60) {  //tarif senior
-            return $price = 12.00;
+            return $price = $this->prices['normal'];
+        }elseif ($interval > 60) {                      //tarif senior
+            return $price = $this->prices['senior'];
         }
         else {
-            return $price = 16.00;
+            return $price = $this->prices['normal'];
         }
     }
 
@@ -30,17 +38,23 @@ class CalculPrice
     }
 
     public function reductionTicketPrices(){
-        return $price = 10.00;
+        return $price = $this->prices['reduit'];
     }
 
 //    public function reductionHalfday($price){
 //        return $price/2;
 //    }
 
-    public function calculeAge($birthday)
+    public function calculeAge(\DateTime $birthday, \DateTime $dateVisite)
     {
-        $today = new \DateTime();
-        $age = $today->diff($birthday);
-        return  $age->format('%y');
+        return $age = $dateVisite->diff($birthday)->y;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPrices()
+    {
+        return $this->prices;
     }
 }

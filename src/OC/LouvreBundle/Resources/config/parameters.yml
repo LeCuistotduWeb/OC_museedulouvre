@@ -1,0 +1,8 @@
+parameters:
+    prices:
+        baby: 'Gratuit'
+        enfant: 8
+        normal: 16
+        senior: 12
+        reduit: 10
+        halfday: 10

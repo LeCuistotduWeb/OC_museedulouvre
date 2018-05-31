@@ -17,7 +17,8 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('@OCLouvre/Default/index.html.twig');
+//        $calculPrice= $this->get('oc_louvre.calculprice');
+        return $this->render('@OCLouvre/Default/index.html.twig', ['prices'=> $this->getParameter('prices')]);
     }
 
     /**
@@ -51,7 +52,6 @@ class DefaultController extends Controller
                 if($reduction == 1){
                     $ticket->setPrice($this->get('oc_louvre.calculprice')->reductionTicketPrices());
                 }
-
             }
             $em->flush();
             dump($commande);

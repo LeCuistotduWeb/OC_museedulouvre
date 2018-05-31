@@ -13,7 +13,7 @@
                 <div class="tarifs-content-body">
                     <p>moins de 4ans
                         <br>
-                        <span class="tarifs">Gratuit</span>
+                        <span class="tarifs">{{ prices['baby'] }}</span>
                     </p>
                 </div>
             </div>
@@ -24,7 +24,7 @@
                 <div class="tarifs-content-body">
                     <p>de 4 à 12ans
                         <br>
-                        <span class="tarifs">8€</span>
+                        <span class="tarifs">{{ prices['enfant'] }}€</span>
                     </p>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                 <div class="tarifs-content-body">
                     <p>à partir de 12ans
                         <br>
-                        <span class="tarifs">16€</span>
+                        <span class="tarifs">{{ prices['normal'] }}€</span>
                     </p>
                 </div>
             </div>
@@ -46,7 +46,7 @@
                 <div class="tarifs-content-body">
                     <p>à partir de 60ans
                       <br>
-                      <span class="tarifs">12€</span>
+                      <span class="tarifs">{{ prices['senior'] }}€</span>
                     </p>
                 </div>
             </div>
@@ -57,13 +57,13 @@
                 <div class="tarifs-content-body">
                   <p class="reduit">(étudiant, militaire…)
                     <br>
-                    <span class="tarifs">10€</span>
+                    <span class="tarifs">{{ prices['reduit'] }}€</span>
                   </p>
                 </div>
             </div>
         </div>
         <br>
-        <p class="col-12">tarifs demi-journée : 10€</p>
+        <p class="col-12">tarifs demi-journée : {{ prices['halfday'] }}€</p>
         <p class="condition col-12">Il vous sera demmandé un justificatif à l'entrée musée pour bénéficier d'un tarif réduit.</p>
         </div>
     </div>

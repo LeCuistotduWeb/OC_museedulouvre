@@ -12,10 +12,10 @@ class CalculPrice
         $this->prices = $prices;
     }
 
-    public function calculeTicketPrices($birthday){
+    public function calculeTicketPrices($birthday, $dateVisite){
 
         //calcule le nombre d'années entre la date du jour et la date d'anniversaire
-        $interval = $this->calculeAge($birthday);
+        $interval = $this->calculeAge($birthday, $dateVisite);
 
         if($interval < 4){                              //tarif baby
             return $price = $this->prices['baby'];
@@ -41,10 +41,6 @@ class CalculPrice
         return $price = $this->prices['reduit'];
     }
 
-//    public function reductionHalfday($price){
-//        return $price/2;
-//    }
-
     public function calculeAge(\DateTime $birthday, \DateTime $dateVisite)
     {
         return $age = $dateVisite->diff($birthday)->y;
@@ -57,4 +53,8 @@ class CalculPrice
     {
         return $this->prices;
     }
+
+//    public function reductionHalfday($price){
+//        return $price/2;
+//    }
 }

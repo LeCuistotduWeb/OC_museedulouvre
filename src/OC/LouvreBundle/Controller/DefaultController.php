@@ -38,13 +38,17 @@ class DefaultController extends Controller
 
             $commande->setCodeReservation($commande->createCodeReserv());
 
+            $calculPrice= $this->get('oc_louvre.calculprice');
+//            dump($calculPrice);
+
             foreach($commande->getTickets() as $ticket){
 
                 $dateBirthday = $ticket->getVisitor()->getDateBirthday();
+                $dateVisite = $commande->getDateVisite();
                 $halfDay = $ticket->getHalfday();
                 $reduction = $ticket->getVisitor()->getReduction();
 
-                $ticket->setPrice($this->get('oc_louvre.calculprice')->calculeTicketPrices($dateBirthday));
+                $ticket->setPrice($this->get('oc_louvre.calculprice')->calculeTicketPrices($dateBirthday, $dateVisite));
 
                 if($halfDay == 1){
                     $ticket->setPrice($this->get('oc_louvre.calculprice')->reductionHalfday());
@@ -53,8 +57,8 @@ class DefaultController extends Controller
                     $ticket->setPrice($this->get('oc_louvre.calculprice')->reductionTicketPrices());
                 }
             }
-            $em->flush();
             dump($commande);
+            $em->flush();
 
             // redirige vers la page de payement
             return $this->redirectToRoute('oc_louvre_stripe_payment', 

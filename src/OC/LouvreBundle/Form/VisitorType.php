@@ -34,7 +34,7 @@ class VisitorType extends AbstractType
             ->add('dateBirthday', BirthdayType::class, [
                 'label' => 'Date de naissance : ',
                 'format' => 'dd-MM-yyyy',
-                'years' => range(1920,date("y")),
+                'years' => range(date("Y")-110, date("Y")),
                 ])
             ->add('country', CountryType::class, [
                 'label'  => 'Votre pays : ',

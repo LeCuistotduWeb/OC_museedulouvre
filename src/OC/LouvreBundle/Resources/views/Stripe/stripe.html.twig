@@ -26,7 +26,7 @@
                 </p>
 
                 <div class="row">
-                {% for ticket in listTickets %}
+                {% for ticket in commande.tickets%}
                     <div class="mt-2 col-lg-3 col-md-4 col-sm-12 col-xs-12 card m-md-2 p-3">
                         <p>Billet {{loop.index}} :<br>
                             Nom : {{ ticket.visitor.surname }} <br>

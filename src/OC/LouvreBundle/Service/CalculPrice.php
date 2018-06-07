@@ -54,7 +54,7 @@ class CalculPrice
         return $this->prices;
     }
 
-//    public function reductionHalfday($price){
-//        return $price/2;
-//    }
+    public function reductionHalfday($price){
+        return $price/2;
+    }
 }

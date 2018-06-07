@@ -10,4 +10,5 @@ namespace OC\LouvreBundle\Repository;
  */
 class TicketRepository extends \Doctrine\ORM\EntityRepository
 {
+
 }

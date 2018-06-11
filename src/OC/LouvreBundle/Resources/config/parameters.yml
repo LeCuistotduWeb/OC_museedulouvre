@@ -1,8 +1,10 @@
 parameters:
     prices:
-        baby: 'Gratuit'
+        baby: 0
         enfant: 8
         normal: 16
         senior: 12
         reduit: 10
         halfday: 10
+
+    maxTicketPerDay: 0

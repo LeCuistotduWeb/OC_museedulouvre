@@ -53,6 +53,14 @@ class Commande
      */
     private $codeReservation;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="paid", type="boolean")
+     * @Assert\Type("bool")
+     */
+    private $paid = false;
+
     /** 
      * @ORM\OneToMany(targetEntity="OC\LouvreBundle\Entity\Ticket", mappedBy="commande", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
@@ -177,11 +185,17 @@ class Commande
         return $this->tickets;
     }
 
+
     public function getPriceTotal(){
-        $priceTotal;
-        foreach($this->tickets as $ticket ){
+        $priceTotal = 0;
+        foreach($this->getTickets() as $ticket ){
             $priceTotal += $ticket->getPrice();
         }
         return $priceTotal;
+    }
+    public function createCodeReserv(){
+        $date = $this->getDateVisite();
+        $id = $this->getId();
+        return 'D' . date_format($date, 'dmY') . '-C' . rand();
     }
 }

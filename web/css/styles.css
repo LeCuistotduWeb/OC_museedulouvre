@@ -345,6 +345,7 @@ Medium devices (desktops, 992px and up)
         bottom: 0;
         left: 0;
         max-width: 80%;
+        width: 80%;
         height: 80%;
     }
     .section-content {
@@ -362,7 +363,7 @@ Medium devices (desktops, 992px and up)
         background-color: #fff;
         box-shadow: hsl(64, 8%, 38%) 0px 5px 10px;
         margin: 5px auto;
-        min-width: 170px;
+        min-width: 202px;
     }
     #messageFlash {
         width: 75%;

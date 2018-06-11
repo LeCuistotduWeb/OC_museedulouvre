@@ -53,6 +53,14 @@ class Commande
      */
     private $codeReservation;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="paid", type="boolean")
+     * @Assert\Type("bool")
+     */
+    private $paid = false;
+
     /** 
      * @ORM\OneToMany(targetEntity="OC\LouvreBundle\Entity\Ticket", mappedBy="commande", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
@@ -189,5 +197,29 @@ class Commande
         $date = $this->getDateVisite();
         $id = $this->getId();
         return 'D' . date_format($date, 'dmY') . '-C' . rand();
+    }
+
+    /**
+     * Set paid
+     *
+     * @param boolean $paid
+     *
+     * @return Commande
+     */
+    public function setPaid($paid)
+    {
+        $this->paid = $paid;
+
+        return $this;
+    }
+
+    /**
+     * Get paid
+     *
+     * @return boolean
+     */
+    public function getPaid()
+    {
+        return $this->paid;
     }
 }

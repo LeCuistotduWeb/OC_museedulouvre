@@ -13,7 +13,7 @@
                 <div class="tarifs-content-body">
                     <p>moins de 4ans
                         <br>
-                        <span class="tarifs">{{ prices['baby'] }}</span>
+                        <span class="tarifs">{% if prices['baby'] == 0 %} Gratuit{% else %}{{ prices['baby'] }} {% endif %}</span>
                     </p>
                 </div>
             </div>
@@ -62,9 +62,12 @@
                 </div>
             </div>
         </div>
-        <br>
-        <p class="col-12">tarifs demi-journée : {{ prices['halfday'] }}€</p>
-        <p class="condition col-12">Il vous sera demmandé un justificatif à l'entrée musée pour bénéficier d'un tarif réduit.</p>
         </div>
+    <br>
+    <p class="col-12 mt-4">Tarifs demi-journée : {{ prices['halfday'] }}€</p>
+    <div class="row">
+
+    </div>
+    <p class="condition col-12">Il vous sera demmandé un justificatif à l'entrée musée pour bénéficier d'un tarif réduit.</p>
     </div>
 </section>

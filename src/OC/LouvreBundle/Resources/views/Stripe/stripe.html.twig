@@ -7,6 +7,11 @@
 
 {% block body %}
     <div class="container-fluid">
+        {# messageFlash #}
+        {% block flash_messages %}
+            {{ parent() }}
+        {% endblock %}
+        {# /messageFlash #}
 
         <section class="section-home" id="home">
             <h1>Musée du

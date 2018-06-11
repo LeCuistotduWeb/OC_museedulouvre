@@ -3,10 +3,14 @@ services:
 #        class: OC\LouvreBundle\Example
 #        arguments: ["@service_id", "plain_value", "%parameter%"]
 
-    oc_louvre.calculprice:
-        class: OC\LouvreBundle\Service\CalculPrice
-        arguments:
-            - %prices%
+#    oc_louvre.calculprice:
+#        class: OC\LouvreBundle\Service\CalculPrice
+#        arguments:
+#            - %prices%
+
+    oc_louvre.commande_service:
+        class: OC\LouvreBundle\Service\CommandeService
+        arguments: [ '%prices%', '%maxTicketPerDay%', '@doctrine.orm.entity_manager', '@session' ]
 
     oc_louvre.email_commande:
         class: OC\LouvreBundle\Service\EmailCommande
@@ -14,3 +18,4 @@ services:
 
     oc_louvre.stripe_payement:
         class: OC\LouvreBundle\Service\StripePayement
+        arguments: ['%stripe_secret_key%', '%stripe_public_key%']

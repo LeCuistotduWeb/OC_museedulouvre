@@ -8,6 +8,7 @@
 
 namespace OC\LouvreBundle\Service;
 use Stripe\Stripe;
+
 class StripePayement
 {
     private $statut;

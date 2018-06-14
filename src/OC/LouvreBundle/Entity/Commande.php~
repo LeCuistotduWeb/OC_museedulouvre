@@ -198,4 +198,28 @@ class Commande
         $id = $this->getId();
         return 'D' . date_format($date, 'dmY') . '-C' . rand();
     }
+
+    /**
+     * Set paid
+     *
+     * @param boolean $paid
+     *
+     * @return Commande
+     */
+    public function setPaid($paid)
+    {
+        $this->paid = $paid;
+
+        return $this;
+    }
+
+    /**
+     * Get paid
+     *
+     * @return boolean
+     */
+    public function getPaid()
+    {
+        return $this->paid;
+    }
 }

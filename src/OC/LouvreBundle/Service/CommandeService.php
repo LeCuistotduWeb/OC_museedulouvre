@@ -10,6 +10,7 @@ namespace OC\LouvreBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Validator\Constraints\Date;
 
 class CommandeService
 {
@@ -17,6 +18,7 @@ class CommandeService
     private $maxTicketsPerDay;
     private $em;
     private $session;
+    private $today;
 
     public function __construct(array $prices, int $maxTicketsPerDay, EntityManager $em, Session $session)
     {
@@ -24,6 +26,7 @@ class CommandeService
         $this->maxTicketsPerDay = $maxTicketsPerDay;
         $this->session = $session;
         $this->em = $em;
+        $this->today = new \DateTime();
     }
     public function commande($commande){
 
@@ -37,8 +40,13 @@ class CommandeService
             $ticket->setPrice($this->calculeTicketPrices($dateBirthday, $dateVisite));
 
             if ($halfDay == 1) {
-                $ticket->setPrice($this->reductionHalfday($ticket->getPrice()));
+                if($this->hourHalfDay() == 0){
+                    $ticket->setPrice($this->reductionHalfday($ticket->getPrice()));
+                }else{
+                    dump('les billets demi-journée ne sont plus disponnible après 13h');
+                }
             }
+
             if ($reduction == 1) {
                 $ticket->setPrice($this->reductionTicketPrices());
             }
@@ -109,4 +117,24 @@ class CommandeService
             return $ticketDispo;
         }
     }
+
+    public function hourHalfDay(){
+        date_default_timezone_set('Europe/Paris');
+        $hour = date("H");
+        if($hour >= 13){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+//    public function getHolidays(){
+//        $year = intval(date('Y'));
+//        return $holidays = array(
+//            mktime(0, 0, 0, 5,  1,  $year),
+//            mktime(0, 0, 0, 11,  1,  $year),
+//            mktime(0, 0, 0, 12,  25,  $year),
+//            date("l"),
+//        );
+//    }
 }

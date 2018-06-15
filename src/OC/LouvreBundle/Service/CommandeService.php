@@ -20,6 +20,13 @@ class CommandeService
     private $session;
     private $today;
 
+    /**
+     * CommandeService constructor.
+     * @param array $prices
+     * @param int $maxTicketsPerDay
+     * @param EntityManager $em
+     * @param Session $session
+     */
     public function __construct(array $prices, int $maxTicketsPerDay, EntityManager $em, Session $session)
     {
         $this->prices = $prices;
@@ -28,6 +35,12 @@ class CommandeService
         $this->em = $em;
         $this->today = new \DateTime();
     }
+
+    /**
+     * complete la commande
+     * @param $commande
+     * @return mixed
+     */
     public function commande($commande){
 
         $commande->setCodeReservation($commande->createCodeReserv());
@@ -54,6 +67,13 @@ class CommandeService
         $this->getTicketDispo($commande);
         return $commande;
     }
+
+    /**
+     * calcule le prix du billet
+     * @param $birthday
+     * @param $dateVisite
+     * @return mixed
+     */
     public function calculeTicketPrices($birthday, $dateVisite){
 
         //calcule le nombre d'années entre la date du jour et la date d'anniversaire
@@ -73,22 +93,38 @@ class CommandeService
         }
     }
 
+    /**
+     * calcul une reduction avec un pourcentage
+     * @param $price
+     * @return float
+     */
     public function reductionTicketPricesPourcent($price){
         $reduction = $price * 0.25;
         $price -=  $reduction;
         return $price;
     }
 
+    /**
+     * retourne le prix d'un ticket avec reduction
+     * @return mixed
+     */
     public function reductionTicketPrices(){
         return $price = $this->prices['reduit'];
     }
 
+    /**
+     * calcule l'age du visiteur
+     * @param \DateTime $birthday
+     * @param \DateTime $dateVisite
+     * @return int
+     */
     public function calculeAge(\DateTime $birthday, \DateTime $dateVisite)
     {
         return $age = $dateVisite->diff($birthday)->y;
     }
 
     /**
+     * recupere le prix
      * @return array
      */
     public function getPrices()
@@ -96,28 +132,40 @@ class CommandeService
         return $this->prices;
     }
 
+    /**
+     * reduction demi-journée
+     * @param $price
+     * @return float|int
+     */
     public function reductionHalfday($price){
         return $price/2;
     }
 
+    /**
+     * verifie si moins de 1000 billet vendu
+     * @param $commande
+     * @return int|void
+     */
     public function getTicketDispo($commande){
         $nbTicketCommande = count($commande->getTickets());
-        $repository = $this->em
-            ->getRepository('OCLouvreBundle:Commande')
-        ;
+        $repository = $this->em->getRepository('OCLouvreBundle:Commande');
 
         $nbTickets = $repository->findBy(
             array('dateVisite' => $commande->getDateVisite())
         );
         $nbTickets = count($nbTickets);
         $ticketDispo = $this->maxTicketsPerDay - $nbTickets - $nbTicketCommande;
-        if ($ticketDispo >= 0) {
+        if ($ticketDispo <= 0) {
             return $this->session->getFlashBag()->add('complet ', 'Il ne reste plus assez de ticket pour cette date.');
         }else{
             return $ticketDispo;
         }
     }
 
+    /**
+     * verifie l'heure si billet demi-journée pris pour le jour même.
+     * @return bool
+     */
     public function hourHalfDay(){
         date_default_timezone_set('Europe/Paris');
         $hour = date("H");

@@ -7,4 +7,4 @@ parameters:
         reduit: 10
         halfday: 10
 
-    maxTicketPerDay: 0
+    maxTicketPerDay: 1000

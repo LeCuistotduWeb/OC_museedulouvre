@@ -8,21 +8,34 @@
 
 namespace OC\LouvreBundle\Service;
 use Stripe\Stripe;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class StripePayement
 {
     private $statut;
     private $secretKey;
     private $publicKey;
+    private $session;
 
-    public function __construct($secretKey, $publicKey)
+    /**
+     * StripePayement constructor.
+     * @param string $secretKey
+     * @param string $publicKey
+     * @param Session $session
+     */
+    public function __construct(string $secretKey, string $publicKey, Session $session)
     {
         $this->secretKey = $secretKey;
         $this->publicKey = $publicKey;
+        $this->session = $session;
         Stripe::setApiKey($secretKey);
     }
 
-    public function procededPayement($token, $commande){
+    /** procède au paiment
+     * @param $token
+     * @param $commande
+     */
+    public function procededPayement($token, $commande) {
 
         try {
             $charge = \Stripe\Charge::create(array(
@@ -31,18 +44,13 @@ class StripePayement
                 "description" => "référence commande : ". $commande->getCodeReservation(),
                 'source'  => $token,
             ));
-            dump($charge->id);
-            $this->statut = true;
+            $this->statut = $charge->id;
         } catch(\Stripe\Error\Card $e) {
             // Since it's a decline, \Stripe\Error\Card will be caught
             $body = $e->getJsonBody();
             $err  = $body['error'];
 
-            print('Status is:' . $e->getHttpStatus() . "\n");
-            print('Type is:' . $err['type'] . "\n");
-            print('Code is:' . $err['code'] . "\n");
-            print('Param is:' . $err['param'] . "\n");
-            print('Message is:' . $err['message'] . "\n");
+            $this->session->getFlashBag()->add('danger','Message is:' . $err['message']);
             $this->statut = false;
         } catch (\Stripe\Error\RateLimit $e) {
             // Too many requests made to the API too quickly
@@ -61,7 +69,11 @@ class StripePayement
         }
     }
 
-    public function isPaid(){
+    /**
+     * retourne l'etat de la commande
+     * @return mixed
+     */
+    public function isPaid() {
         return $this->statut;
     }
 }

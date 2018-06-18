@@ -10,12 +10,13 @@ namespace OC\LouvreBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\Validator\Constraints\Date;
+
 
 class CommandeService
 {
     private $prices;
     private $maxTicketsPerDay;
+    private $limiHalfDay;
     private $em;
     private $session;
     private $today;
@@ -27,11 +28,12 @@ class CommandeService
      * @param EntityManager $em
      * @param Session $session
      */
-    public function __construct(array $prices, int $maxTicketsPerDay, EntityManager $em, Session $session)
+    public function __construct(array $prices, int $maxTicketsPerDay, EntityManager $em, Session $session, string $limitHalfDay)
     {
         $this->prices = $prices;
         $this->maxTicketsPerDay = $maxTicketsPerDay;
         $this->session = $session;
+        $this->limiHalfDay = $limitHalfDay;
         $this->em = $em;
         $this->today = new \DateTime();
     }
@@ -50,6 +52,7 @@ class CommandeService
             $dateVisite = $commande->getDateVisite();
             $halfDay = $ticket->getHalfday();
             $reduction = $ticket->getVisitor()->getReduction();
+
             $ticket->setPrice($this->calculeTicketPrices($dateBirthday, $dateVisite));
 
             if ($halfDay == 1) {
@@ -57,6 +60,7 @@ class CommandeService
                     $ticket->setPrice($this->reductionHalfday($ticket->getPrice()));
                 }else{
                     dump('les billets demi-journée ne sont plus disponnible après 13h');
+//                    $this->session->getFlashBag()->add('warning','les billets demi-journée ne sont plus disponnible après 13h');
                 }
             }
 
@@ -98,7 +102,7 @@ class CommandeService
      * @param $price
      * @return float
      */
-    public function reductionTicketPricesPourcent($price){
+    public function reductionTicketPricesPourcent($price):float {
         $reduction = $price * 0.25;
         $price -=  $reduction;
         return $price;
@@ -118,7 +122,7 @@ class CommandeService
      * @param \DateTime $dateVisite
      * @return int
      */
-    public function calculeAge(\DateTime $birthday, \DateTime $dateVisite)
+    public function calculeAge(\DateTime $birthday, \DateTime $dateVisite):int
     {
         return $age = $dateVisite->diff($birthday)->y;
     }
@@ -127,7 +131,7 @@ class CommandeService
      * recupere le prix
      * @return array
      */
-    public function getPrices()
+    public function getPrices():array
     {
         return $this->prices;
     }
@@ -137,7 +141,7 @@ class CommandeService
      * @param $price
      * @return float|int
      */
-    public function reductionHalfday($price){
+    public function reductionHalfday($price):float {
         return $price/2;
     }
 
@@ -163,17 +167,16 @@ class CommandeService
     }
 
     /**
-     * verifie l'heure si billet demi-journée pris pour le jour même.
+     * verifie l'heure pour billet demi journée
      * @return bool
      */
-    public function hourHalfDay(){
+    public function hourHalfDay():bool {
         date_default_timezone_set('Europe/Paris');
-        $hour = date("H");
-        if($hour >= 13){
-            return true;
-        }else{
-            return false;
-        }
+        $dt = new \DateTime();
+        $hour = $dt->format("H");
+        $limitHour = $this->limiHalfDay;
+        dump($hour > $limitHour);
+        return $hour > $limitHour;
     }
 
 //    public function getHolidays(){

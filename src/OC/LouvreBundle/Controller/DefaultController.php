@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 use OC\LouvreBundle\Entity\Commande;
 use OC\LouvreBundle\Form\CommandeType;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class DefaultController extends Controller
@@ -15,7 +16,7 @@ class DefaultController extends Controller
      * page principale
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction()
+    public function indexAction(): Response
     {
         return $this->render('default/index.html.twig', ['prices' => $this->getParameter('prices')]);
     }
@@ -25,7 +26,7 @@ class DefaultController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function newCommandeAction(Request $request)
+    public function newCommandeAction(Request $request): Response
     {
         $session = $request->getSession();
         
@@ -52,7 +53,7 @@ class DefaultController extends Controller
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax
      */
-    public function stripePaymentAction(Request $request)
+    public function stripePaymentAction(Request $request): Response
     {
         $session = $request->getSession();
         $commande = $session->get('commande');
@@ -99,7 +100,7 @@ class DefaultController extends Controller
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax
      */
-    public function sendMailAction($id)
+    public function sendMailAction($id): Response
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -119,7 +120,7 @@ class DefaultController extends Controller
      * @param $id
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function mailAction($id)
+    public function mailAction($id): Response
     {
         $em = $this->getDoctrine()->getManager();
 

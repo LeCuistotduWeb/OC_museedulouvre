@@ -8,3 +8,5 @@ parameters:
         halfday: 10
 
     maxTicketPerDay: 1000
+
+    limitHalfDay: 13

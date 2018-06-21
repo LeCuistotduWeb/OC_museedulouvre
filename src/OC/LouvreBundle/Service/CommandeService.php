@@ -43,7 +43,7 @@ class CommandeService
      * @param $commande
      * @return mixed
      */
-    public function commande($commande){
+    public function checkCommande($commande){
 
         $commande->setCodeReservation($commande->createCodeReserv());
         foreach ($commande->getTickets() as $ticket) {

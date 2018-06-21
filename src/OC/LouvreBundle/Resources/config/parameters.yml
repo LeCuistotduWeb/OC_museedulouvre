@@ -1,12 +1,12 @@
-parameters:
-    prices:
-        baby: 0
-        enfant: 8
-        normal: 16
-        senior: 12
-        reduit: 10
-        halfday: 10
-
-    maxTicketPerDay: 1000
-
-    limitHalfDay: 13
+#parameters:
+#    prices:
+#        baby: 0
+#        enfant: 8
+#        normal: 16
+#        senior: 12
+#        reduit: 10
+#        halfday: 10
+#
+#    maxTicketPerDay: 1000
+#
+#    limitHalfDay: 13

@@ -1,7 +1,16 @@
 # Learn more about services, parameters and containers at
 # https://symfony.com/doc/current/service_container.html
 parameters:
-    #parameter_name: value
+    prices:
+        baby: 0
+        enfant: 8
+        normal: 16
+        senior: 12
+        reduit: 10
+        halfday: 10
+
+    maxTicketPerDay: 1000
+    limitHalfDay: 13
 
 services:
     # Default configuration for services in *this* file
@@ -17,3 +26,30 @@ services:
     OC\LouvreBundle\DataFixtures\:
         resource: '../../src/OC/LouvreBundle/DataFixtures'
         tags: ['doctrine.fixture.orm']
+
+    # makes classes in src/AppBundle available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    OC\LouvreBundle\:
+        resource: '../../src/OC/LouvreBundle/*'
+        # you can exclude directories or files
+        # but if a service is unused, it's removed anyway
+        exclude: '../../src/OC/LouvreBundle/{Entity,Repository,Tests}'
+
+    OC\LouvreBundle\Service\CommandeService:
+        arguments:
+            $prices: '%prices%'
+            $maxTicketsPerDay: '%maxTicketPerDay%'
+            $em: '@doctrine.orm.entity_manager'
+            $session: '@session'
+            $limitHalfDay: '%limitHalfDay%'
+
+    OC\LouvreBundle\Service\EmailCommande:
+        arguments:
+            $mailer: '@mailer'
+            $templating: '@twig'
+
+    OC\LouvreBundle\Service\StripePayement:
+        arguments:
+            $secretKey: '%stripe_secret_key%'
+            $publicKey: '%stripe_public_key%'
+            $session: '@session'

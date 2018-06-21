@@ -9,11 +9,11 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Commande
  *
- * @ORM\Table(name="commande")
  * @ORM\Entity(repositoryClass="OC\LouvreBundle\Repository\CommandeRepository")
+ *
  */
 class Commande
-{   
+{
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
@@ -61,7 +61,7 @@ class Commande
      */
     private $paid = false;
 
-    /** 
+    /**
      * @ORM\OneToMany(targetEntity="OC\LouvreBundle\Entity\Ticket", mappedBy="commande", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()

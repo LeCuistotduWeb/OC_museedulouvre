@@ -1,16 +1,22 @@
 services:
 
-    oc_louvre.commande_service:
-        class: OC\LouvreBundle\Service\CommandeService
-        arguments: [ '%prices%', '%maxTicketPerDay%', '@doctrine.orm.entity_manager', '@session','%limitHalfDay%']
-        public: true
-
-    oc_louvre.email_commande:
-        class: OC\LouvreBundle\Service\EmailCommande
-        arguments: ["@mailer", '@twig']
-        public: true
-
-    oc_louvre.stripe_payement:
-        class: OC\LouvreBundle\Service\StripePayement
-        arguments: ['%stripe_secret_key%', '%stripe_public_key%', '@session']
-        public: true
+#    OC\LouvreBundle\Service\CommandeService:
+#        class: OC\LouvreBundle\Service\CommandeService
+#        arguments:
+#            $prices: '%prices%'
+#            $maxTicketsPerDay: '%maxTicketPerDay%'
+#            $em: '@doctrine.orm.entity_manager'
+#            $session: '@session'
+#            $limitHalfDay: '%limitHalfDay%'
+#
+#    oc_louvre.email_commande:
+#        class: OC\LouvreBundle\Service\EmailCommande
+#        arguments: ["@mailer", '@twig']
+#        public: true
+#
+#    oc_louvre.stripe_payement:
+#        class: OC\LouvreBundle\Service\StripePayement
+#        arguments: ['%stripe_secret_key%', '%stripe_public_key%', '@session']
+#        public: true
+#
+#

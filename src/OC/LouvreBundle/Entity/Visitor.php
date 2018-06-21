@@ -9,8 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Visitor
  *
- * @ORM\Table(name="visitor")
- * @ORM\Entity(repositoryClass="OC\LouvreBundle\Repository\VisitorRepository")
+ * @ORM\Entity(repositoryClass="OC\LouvreBundle\Repository\TicketRepository")
  */
 class Visitor
 {   

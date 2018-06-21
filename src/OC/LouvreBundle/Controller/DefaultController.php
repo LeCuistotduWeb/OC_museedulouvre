@@ -2,6 +2,10 @@
 
 namespace OC\LouvreBundle\Controller;
 
+use OC\LouvreBundle\Service\CommandeService;
+use OC\LouvreBundle\Service\EmailCommande;
+use OC\LouvreBundle\Service\StripePayement;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -24,9 +28,10 @@ class DefaultController extends Controller
     /**
      * créer une nouvelle commande
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @param CommandeService $commandeService
+     * @return Response
      */
-    public function newCommandeAction(Request $request): Response
+    public function newCommandeAction(Request $request, CommandeService $commandeService): Response
     {
         $session = $request->getSession();
         
@@ -36,7 +41,7 @@ class DefaultController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
 
             $commande = $form->getData();
-            $commande = $this->get('oc_louvre.commande_service')->commande($commande);
+            $commandeService->checkCommande($commande);
             $session->set('commande', $commande);
 
             // redirige vers la page de paiement
@@ -53,7 +58,7 @@ class DefaultController extends Controller
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax
      */
-    public function stripePaymentAction(Request $request): Response
+    public function stripePaymentAction(Request $request, StripePayement $stripePayement, EmailCommande $emailCommande): Response
     {
         $session = $request->getSession();
         $commande = $session->get('commande');
@@ -61,7 +66,7 @@ class DefaultController extends Controller
         if($commande != null) {
             // recupèration du token
             $token = $request->request->get('stripeToken');
-            $this->get('oc_louvre.stripe_payement')->procededPayement($token, $commande);
+            $stripePayement->procededPayement($token, $commande);
 
             //enregistrement commande en base de données
             $em = $this->getDoctrine()->getManager();
@@ -69,14 +74,14 @@ class DefaultController extends Controller
             $em->flush();
 
             // verifie si le paiment et validé
-            $paid = $this->get('oc_louvre.stripe_payement')->isPaid();
+            $paid = $stripePayement->isPaid();
             // si paiment validé
             if ($paid == true) {
                 //marque comme commande payé
                 $commande->setPaid(true);
                 $em->flush();
                 // envoi de la commande par mail
-                $this->get('oc_louvre.email_commande')->sendMail($commande);
+                $emailCommande->sendMail($commande);
                 // message success validation de commande
                 $this->addFlash('success', 'Votre commande est bien enregistrée. Vos billets on été envoyés par email.');
                 $session->remove('commande');
@@ -100,14 +105,14 @@ class DefaultController extends Controller
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax
      */
-    public function sendMailAction($id): Response
+    public function sendMailAction($id, EmailCommande $emailCommande)
     {
         $em = $this->getDoctrine()->getManager();
 
         // recupère la commande $id
         $commande = $em->getRepository('OCLouvreBundle:Commande')->find($id);
         // envoi de la commande par mail
-        $sendmail = $this->get('oc_louvre.email_commande')->sendMail($commande);
+        $emailCommande->sendMail($commande);
 
         // message success validation de commande
         $this->addFlash('success', 'Votre commande est bien enregistrée. Vos billets on été envoyés par email.');
@@ -120,7 +125,7 @@ class DefaultController extends Controller
      * @param $id
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function mailAction($id): Response
+    public function mailAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 

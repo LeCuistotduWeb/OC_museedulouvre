@@ -1,24 +1,24 @@
-oc_louvre_homepage:
-    path:     /
-    defaults: { _controller: OCLouvreBundle:Default:index }
-
-oc_louvre_new_commande:
-    path:     /order
-    defaults: { _controller: OCLouvreBundle:Default:newCommande }
-
-oc_louvre_mailer_send:
-    path:     /send/{id}
-    defaults: { _controller: OCLouvreBundle:Default:sendMail }
-
-
-oc_louvre_mailer_view:
-    path:     /mail/{id}
-    defaults: { _controller: OCLouvreBundle:Default:mail }
-
-oc_louvre_stripe_payment:
-    path:     /payment
-    defaults: { _controller: OCLouvreBundle:Default:stripePayment }
-
-oc_louvre_testService:
-    path:     /testservice
-    defaults: { _controller: OCLouvreBundle:Default:testService }
+#oc_louvre_homepage:
+#    path:     /
+#    defaults: { _controller: OCLouvreBundle:Default:index }
+#
+#oc_louvre_new_commande:
+#    path:     /order
+#    defaults: { _controller: OCLouvreBundle:Default:newCommande }
+#
+#oc_louvre_mailer_send:
+#    path:     /send/{id}
+#    defaults: { _controller: OCLouvreBundle:Default:sendMail }
+#
+#
+#oc_louvre_mailer_view:
+#    path:     /mail/{id}
+#    defaults: { _controller: OCLouvreBundle:Default:mail }
+#
+#oc_louvre_stripe_payment:
+#    path:     /payment
+#    defaults: { _controller: OCLouvreBundle:Default:stripePayment }
+#
+#oc_louvre_testService:
+#    path:     /testservice
+#    defaults: { _controller: OCLouvreBundle:Default:testService }

@@ -20,7 +20,7 @@ class DefaultController extends Controller
      * page principale
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction(Request $request): Response
+    public function indexAction(Request $request, CommandeService $commandeService): Response
     {
         return $this->render('default/index.html.twig', [
             'prices' => $this->getParameter('prices'),
@@ -94,7 +94,11 @@ class DefaultController extends Controller
                 // message success validation de commande
                 $this->addFlash('success', 'Votre commande est bien enregistrée. Vos billets on été envoyés par email.');
                 $session->remove('commande');
-                return $this->render('Default/index.html.twig', ['prices' => $this->getParameter('prices')]);
+
+                return $this->render('default/index.html.twig', [
+                    'prices' => $this->getParameter('prices'),
+                    'limitHalfDay' => $this->getParameter('limitHalfDay'),
+                ]);
             }
 
             return $this->render('Stripe/stripe.html.twig',

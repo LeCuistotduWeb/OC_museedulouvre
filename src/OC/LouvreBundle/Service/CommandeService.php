@@ -51,8 +51,10 @@ class CommandeService
             $halfDay = $ticket->getHalfday();
             $reduction = $ticket->getVisitor()->getReduction();
 
+            // calcul le prix du billet en fonction de la date de visite et de la date aniversaire du client
             $ticket->setPrice($this->calculeTicketPrices($dateBirthday, $dateVisite));
 
+            // si jour de visite est aujourd'hui
             if ($this->dateVisiteIsDateToday($dateVisite) == false) {
                 if(($this->hourHalfDay() == 0) && ($halfDay == 0)){
                     $ticket->setPrice($this->reductionHalfday($ticket->getPrice()));
@@ -61,11 +63,17 @@ class CommandeService
                 }
             }
 
+            // si jour de visite est un jour de fermeture
+            if($this->verifyIfDateIsClose($dateVisite) || $this->dayClose($dateVisite)){
+                $this->session->getFlashBag()->add('danger ', 'Le musée est fermé ce jour la. Veuillez choisir une autre date de visite.');
+            }
             //si billet avec reduction
             if ($reduction == 1) {
                 $ticket->setPrice($this->reductionTicketPrices());
             }
         }
+
+        // verifie si il reste assez de billet disponible
         if($this->getTicketDispo($commande) == 0){
             $this->session->getFlashBag()->add('danger ', 'Il ne reste plus assez de ticket pour cette date.');
         }
@@ -87,7 +95,6 @@ class CommandeService
      */
     public function calculeTicketPrices($birthday, $dateVisite){
 
-        //calcule le nombre d'années entre la date du jour et la date d'anniversaire
         $interval = $this->calculeAge($birthday, $dateVisite);
 
         if($interval < 4){                              //tarif baby
@@ -153,7 +160,7 @@ class CommandeService
     }
 
     /**
-     * verifie si moins de 1000 billet vendu
+     * verifie si moins de $limitTickets billet vendu
      * @param $commande
      * @return int|void
      */
@@ -174,7 +181,7 @@ class CommandeService
     }
 
     /**
-     * verifie l'heure pour billet demi journée
+     * verifie l'heure pour billet journée
      * @return bool
      */
     public function hourHalfDay():bool {
@@ -191,6 +198,33 @@ class CommandeService
         $result = $dateVisite == $today;
         if($result == true){
             return true;
+        }
+        return false;
+    }
+
+    public function dayClose($dateVisite){
+        $dayClose = '2';
+        if (date_format($dateVisite, 'w') == $dayClose){
+            return true ;
+        }
+        return false;
+    }
+
+    /**
+     * @param $datevisite
+     * @return bool
+     */
+    public function verifyIfDateIsClose($datevisite){
+        $year = date('Y');
+        $dayClose = [
+            new \DateTime($year.'-12-25'),
+            new \DateTime($year.'-11-01'),
+            new \DateTime($year.'-05-01'),
+        ];
+        foreach ($dayClose as $day){
+            if($datevisite == $day){
+                return true;
+            }
         }
         return false;
     }

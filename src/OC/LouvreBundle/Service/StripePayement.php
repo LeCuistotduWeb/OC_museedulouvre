@@ -53,6 +53,7 @@ class StripePayement
             $this->session->getFlashBag()->add('danger','Message is:' . $err['message']);
             $this->statut = false;
         } catch (\Stripe\Error\RateLimit $e) {
+            $this->session->getFlashBag()->add('danger','Trop de demandes faites à l\'API trop rapidement');
             // Too many requests made to the API too quickly
         } catch (\Stripe\Error\InvalidRequest $e) {
             // Invalid parameters were supplied to Stripe's API
@@ -65,6 +66,7 @@ class StripePayement
             // Display a very generic error to the user, and maybe send
             // yourself an email
         } catch (Exception $e) {
+            $this->session->getFlashBag()->add('danger','Une erreur s\'est produite veuillez réessayer ulterieuerement.');
             // Something else happened, completely unrelated to Stripe
         }
     }

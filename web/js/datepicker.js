@@ -16,8 +16,7 @@ $( function() {
     $( ".datepicker" ).datepicker({
         dayNamesMin: [ "Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa" ],
         minDate: new Date(),
-        dateFormat: "dd-mm-yy",
-        firstDay: 1,
+        dateFormat: "yy-mm-dd",
         monthNamesShort: [ "Jan", "Feb", "Mar", "Apr", "Maj", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec" ],
         monthNames: [ "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Decembre" ],
         autoSize: true,

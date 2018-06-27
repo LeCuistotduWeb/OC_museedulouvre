@@ -25,7 +25,7 @@ class CommandeType extends AbstractType
                 'widget' => 'single_text',
                 'html5' => false,
                 'attr' => ['class' => 'datepicker','placeholder' => 'Date de votre visite'],
-                'format' => 'dd-mm-yyyy',
+                'format' => 'yyyy-MM-dd',
             ])
 
             ->add('tickets', CollectionType::class ,[

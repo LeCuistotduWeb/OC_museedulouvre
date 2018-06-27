@@ -64,8 +64,8 @@ class CommandeService
             }
 
             // si jour de visite est un jour de fermeture
-            if($this->verifyIfDateIsClose($dateVisite) || $this->dayClose($dateVisite)){
-                $this->session->getFlashBag()->add('danger ', 'Le musée est fermé ce jour la. Veuillez choisir une autre date de visite.');
+            if(($this->verifyIfDateIsClose($dateVisite) == 1) || ($this->dayClose($dateVisite) == 1)){
+                $this->session->getFlashBag()->add('danger ', 'Le musée est fermé tout les mardi, les 1er mai, 1er novembre et 25 décembre.. Veuillez choisir une autre date de visite.');
             }
             //si billet avec reduction
             if ($reduction == 1) {
@@ -203,29 +203,31 @@ class CommandeService
     }
 
     public function dayClose($dateVisite){
-        $dayClose = '2';
-        if (date_format($dateVisite, 'w') == $dayClose){
+        $dayClose = "Tuesday";
+        if (date_format($dateVisite, 'l') == $dayClose){
             return true ;
         }
         return false;
     }
 
     /**
-     * @param $datevisite
+     * @param $dateVisite
      * @return bool
      */
-    public function verifyIfDateIsClose($datevisite){
+    public function verifyIfDateIsClose($dateVisite){
         $year = date('Y');
         $dayClose = [
+            new \DateTime($year.'-05-01'),
             new \DateTime($year.'-12-25'),
             new \DateTime($year.'-11-01'),
-            new \DateTime($year.'-05-01'),
         ];
+
         foreach ($dayClose as $day){
-            if($datevisite == $day){
+            if($dateVisite->format('m-d') == $day->format('m-d')){
+                dump($day);
                 return true;
             }
         }
-        return false;
+        return null;
     }
 }

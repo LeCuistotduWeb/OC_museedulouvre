@@ -20,9 +20,12 @@ class DefaultController extends Controller
      * page principale
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction(): Response
+    public function indexAction(Request $request): Response
     {
-        return $this->render('default/index.html.twig', ['prices' => $this->getParameter('prices')]);
+        return $this->render('default/index.html.twig', [
+            'prices' => $this->getParameter('prices'),
+            'limitHalfDay' => $this->getParameter('limitHalfDay'),
+        ]);
     }
 
     /**
@@ -41,11 +44,17 @@ class DefaultController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
 
             $commande = $form->getData();
-            $commandeService->checkCommande($commande);
-            $session->set('commande', $commande);
 
-            // redirige vers la page de paiement
-            return $this->redirectToRoute('oc_louvre_stripe_payment', ['commande' => $commande,]);
+            $commandeService->checkCommande($commande);
+
+            if ($commandeService->commandeValid() == true){
+                $session->set('commande', $commande);
+                // redirige vers la page de paiement
+                return $this->redirectToRoute('oc_louvre_stripe_payment', ['commande' => $commande,]);
+            }else{
+                return $this->render('Billeterie/billeterie.html.twig', ['form' => $form->createView(),]);
+            }
+
         }
         return $this->render('Billeterie/billeterie.html.twig', ['form' => $form->createView(),]);
     }

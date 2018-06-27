@@ -8,21 +8,19 @@
 
 {% block body %}
     <div class="container-fluid">
-
-    {# messageFlash #}
-    {% block flash_messages %}
-        {% for type, messages in app.session.flashbag.all() %}
-            {% for message in messages %}
-                <div class="alert alert-{{ type }} alert-dismissible" role="alert" id="messageFlash">
-                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    {{ message | raw }}
-                </div>
-            {% endfor %}
-        {% endfor %}
-    {% endblock %}
-    {# /messageFlash #}
-
     <section class="section-home" id="home">
+        {# messageFlash #}
+        {% block flash_messages %}
+            {% for type, messages in app.session.flashbag.all() %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ type }} alert-dismissible" role="alert" id="messageFlash">
+                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        {{ message | raw }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endblock %}
+        {# /messageFlash #}
         <h1>Musée du
             <br>
             <span>LOUVRE</span>

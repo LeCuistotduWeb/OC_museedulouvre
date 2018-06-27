@@ -1,5 +1,4 @@
 $(function() {
-
   $('.btn-horaires').on( "click", function() {
     $('#horaires').removeClass('hide');
   });
@@ -21,6 +20,10 @@ $(function() {
   $('#contactClose').on( "click", function() {
     $('#contact').addClass('hide');
   });
+
+  //cacher les messages flash après xx sec
+  let messageflash = $('.alert');
+  messageflash.delay(3000).slideUp(300);
 });
 
 

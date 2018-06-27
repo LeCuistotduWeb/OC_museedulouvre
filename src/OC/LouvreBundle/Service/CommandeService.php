@@ -39,9 +39,7 @@ class CommandeService
     }
 
     /**
-     * complete la commande
      * @param $commande
-     * @return mixed
      */
     public function checkCommande($commande){
 
@@ -55,21 +53,30 @@ class CommandeService
 
             $ticket->setPrice($this->calculeTicketPrices($dateBirthday, $dateVisite));
 
-            if ($halfDay == 1) {
-                if($this->hourHalfDay() == 0){
+            if ($this->dateVisiteIsDateToday($dateVisite) == false) {
+                if(($this->hourHalfDay() == 0) && ($halfDay == 0)){
                     $ticket->setPrice($this->reductionHalfday($ticket->getPrice()));
                 }else{
-                    dump('les billets demi-journée ne sont plus disponnible après 13h');
-//                    $this->session->getFlashBag()->add('warning','les billets demi-journée ne sont plus disponnible après 13h');
+                    $this->session->getFlashBag()->add('danger','L\'achat d\'un billet journée n\'est plus disponnible après ' . $this->limiHalfDay . 'h.');
                 }
             }
 
+            //si billet avec reduction
             if ($reduction == 1) {
                 $ticket->setPrice($this->reductionTicketPrices());
             }
         }
-        $this->getTicketDispo($commande);
-        return $commande;
+        if($this->getTicketDispo($commande) == 0){
+            $this->session->getFlashBag()->add('danger ', 'Il ne reste plus assez de ticket pour cette date.');
+        }
+    }
+
+    public function commandeValid(){
+        if ($this->session->getFlashBag()->peekAll() == null){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /**
@@ -160,9 +167,9 @@ class CommandeService
         $nbTickets = count($nbTickets);
         $ticketDispo = $this->maxTicketsPerDay - $nbTickets - $nbTicketCommande;
         if ($ticketDispo <= 0) {
-            return $this->session->getFlashBag()->add('complet ', 'Il ne reste plus assez de ticket pour cette date.');
+            return false;
         }else{
-            return $ticketDispo;
+            return true;
         }
     }
 
@@ -171,21 +178,20 @@ class CommandeService
      * @return bool
      */
     public function hourHalfDay():bool {
-        date_default_timezone_set('Europe/Paris');
+//        date_default_timezone_set('Europe/Paris');
         $dt = new \DateTime();
         $hour = $dt->format("H");
         $limitHour = $this->limiHalfDay;
-        dump($hour > $limitHour);
         return $hour > $limitHour;
     }
 
-//    public function getHolidays(){
-//        $year = intval(date('Y'));
-//        return $holidays = array(
-//            mktime(0, 0, 0, 5,  1,  $year),
-//            mktime(0, 0, 0, 11,  1,  $year),
-//            mktime(0, 0, 0, 12,  25,  $year),
-//            date("l"),
-//        );
-//    }
+    public function dateVisiteIsDateToday($dateVisite){
+        $today = $this->today->format('Y-m-d');
+        $dateVisite = $dateVisite->format('Y-m-d');
+        $result = $dateVisite == $today;
+        if($result == true){
+            return true;
+        }
+        return false;
+    }
 }

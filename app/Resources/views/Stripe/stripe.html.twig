@@ -7,13 +7,12 @@
 
 {% block body %}
     <div class="container-fluid">
-        {# messageFlash #}
-        {% block flash_messages %}
-            {{ parent() }}
-        {% endblock %}
-        {# /messageFlash #}
-
         <section class="section-home" id="home">
+            {# messageFlash #}
+            {% block flash_messages %}
+                {{ parent() }}
+            {% endblock %}
+            {# /messageFlash #}
             <h1>Musée du
                 <br>
                 <span>LOUVRE</span>
@@ -25,7 +24,7 @@
                 <a href="{{ path('oc_louvre_new_commande')}}" class="btn-retour position-relative text-warning position-relative-top font-weight-bold my-2">Retour</a>
                 <h3 class="mt-3">Récapitulatif de vôtre commande : </h3>
 
-                <p>Nombre de billets : {{commande.tickets|length}}.<br>
+                <p>Nombre de billets : {{commande.tickets|length}}<br>
                     Montant de votre commande : {{commande.priceTotal}}€<br>
                     Adresse de réception des billets : {{commande.emailSend}}
                 </p>

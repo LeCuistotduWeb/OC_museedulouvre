@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css">
     <link rel="stylesheet" href="{{ asset ('css/styles.css')}}">
+    <title>{% block title %}{{ parent() }}{% block titlepages %}Accueil{% endblock %}{% endblock %}</title>
 {% endblock %}
 
 {% block body %}

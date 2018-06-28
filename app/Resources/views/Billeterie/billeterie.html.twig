@@ -1,7 +1,8 @@
 {% extends 'Default/index.html.twig' %}
 
 {% block stylesheets %}
-{{ parent() }}
+    {{ parent() }}
+    <title>{% block title %}{{ parent() }}{% block titlepages %}Billeterie{% endblock %}{% endblock %}</title>
 {% endblock %}
 
 {% block body %}

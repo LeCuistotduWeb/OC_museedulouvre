@@ -44,38 +44,47 @@ class CommandeService
     public function checkCommande($commande){
 
         $commande->setCodeReservation($commande->createCodeReserv());
-        foreach ($commande->getTickets() as $ticket) {
 
-            $dateBirthday = $ticket->getVisitor()->getDateBirthday();
-            $dateVisite = $commande->getDateVisite();
-            $halfDay = $ticket->getHalfday();
-            $reduction = $ticket->getVisitor()->getReduction();
+        // si nombre de ticket = 0
+        if(count($commande->getTickets()) <= 0){
+            $this->session->getFlashBag()->add('danger ', 'Veuillez Ajouter un Billet à votre commande.');
+        }
+        else {
 
-            // calcul le prix du billet en fonction de la date de visite et de la date aniversaire du client
-            $ticket->setPrice($this->calculeTicketPrices($dateBirthday, $dateVisite));
+            foreach ($commande->getTickets() as $ticket) {
 
-            // si jour de visite est aujourd'hui
-            if ($this->dateVisiteIsDateToday($dateVisite) == false) {
-                if(($this->hourHalfDay() == 0) && ($halfDay == 0)){
-                    $ticket->setPrice($this->reductionHalfday($ticket->getPrice()));
-                }else{
-                    $this->session->getFlashBag()->add('danger','L\'achat d\'un billet journée n\'est plus disponnible après ' . $this->limiHalfDay . 'h.');
+                $dateBirthday = $ticket->getVisitor()->getDateBirthday();
+                $dateVisite = $commande->getDateVisite();
+                $halfDay = $ticket->getHalfday();
+                $reduction = $ticket->getVisitor()->getReduction();
+
+                // calcul le prix du billet en fonction de la date de visite et de la date aniversaire du client
+                $ticket->setPrice($this->calculeTicketPrices($dateBirthday, $dateVisite));
+
+                // si jour de visite est aujourd'hui
+                if ($this->dateVisiteIsDateToday($dateVisite) == false) {
+                    if (($this->hourHalfDay() == 0) && ($halfDay == 0)) {
+                        $ticket->setPrice($this->reductionHalfday($ticket->getPrice()));
+                    } else {
+                        $this->session->getFlashBag()->add('danger', 'L\'achat d\'un billet journée n\'est plus disponnible après ' . $this->limiHalfDay . 'h.');
+                    }
+                }
+
+                // si jour de visite est un jour de fermeture
+                if (($this->verifyIfDateIsClose($dateVisite) == 1) || ($this->dayClose($dateVisite) == 1)) {
+                    $this->session->getFlashBag()->add('danger ', 'Le musée est fermé tout les mardi, les 1er mai, 1er novembre et 25 décembre.. Veuillez choisir une autre date de visite.');
+                }
+
+                //si billet avec reduction
+                if ($reduction == 1) {
+                    $ticket->setPrice($this->reductionTicketPrices());
                 }
             }
 
-            // si jour de visite est un jour de fermeture
-            if(($this->verifyIfDateIsClose($dateVisite) == 1) || ($this->dayClose($dateVisite) == 1)){
-                $this->session->getFlashBag()->add('danger ', 'Le musée est fermé tout les mardi, les 1er mai, 1er novembre et 25 décembre.. Veuillez choisir une autre date de visite.');
+            // verifie si il reste assez de billet disponible
+            if ($this->getTicketDispo($commande) == 0) {
+                $this->session->getFlashBag()->add('danger ', 'Il ne reste plus assez de ticket pour cette date.');
             }
-            //si billet avec reduction
-            if ($reduction == 1) {
-                $ticket->setPrice($this->reductionTicketPrices());
-            }
-        }
-
-        // verifie si il reste assez de billet disponible
-        if($this->getTicketDispo($commande) == 0){
-            $this->session->getFlashBag()->add('danger ', 'Il ne reste plus assez de ticket pour cette date.');
         }
     }
 

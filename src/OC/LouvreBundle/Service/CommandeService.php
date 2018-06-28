@@ -62,12 +62,21 @@ class CommandeService
                 $ticket->setPrice($this->calculeTicketPrices($dateBirthday, $dateVisite));
 
                 // si jour de visite est aujourd'hui
-                if ($this->dateVisiteIsDateToday($dateVisite) == false) {
-                    if (($this->hourHalfDay() == 0) && ($halfDay == 0)) {
-                        $ticket->setPrice($this->reductionHalfday($ticket->getPrice()));
-                    } else {
-                        $this->session->getFlashBag()->add('danger', 'L\'achat d\'un billet journée n\'est plus disponnible après ' . $this->limiHalfDay . 'h.');
-                    }
+//                if ($this->dateVisiteIsDateToday($dateVisite) == false) {
+//                    if (($this->hourHalfDay() == 0) && ($halfDay == 0)) {
+//                        $ticket->setPrice($this->reductionHalfday($ticket->getPrice()));
+//                    } else {
+//                        $this->session->getFlashBag()->add('danger', 'L\'achat d\'un billet journée n\'est plus disponnible après ' . $this->limiHalfDay . 'h.');
+//                    }
+//                }
+
+                if ($halfDay == 1) {
+                    $ticket->setPrice($this->reductionHalfday($ticket->getPrice()));
+                }
+
+                // si jour de visite est aujourd'hui && heure dachat superieur a heure limit && demmande billet journée;
+                if (($this->dateVisiteIsDateToday($dateVisite) == true) && ($this->hourHalfDay() == 1) && ($halfDay == 0)) {
+                    $this->session->getFlashBag()->add('danger', 'L\'achat d\'un billet journée pour le jour même n\'est plus disponnible après ' . $this->limiHalfDay . 'h.');
                 }
 
                 // si jour de visite est un jour de fermeture
@@ -194,7 +203,7 @@ class CommandeService
      * @return bool
      */
     public function hourHalfDay():bool {
-//        date_default_timezone_set('Europe/Paris');
+        date_default_timezone_set('Europe/Paris');
         $dt = new \DateTime();
         $hour = $dt->format("H");
         $limitHour = $this->limiHalfDay;
@@ -233,7 +242,6 @@ class CommandeService
 
         foreach ($dayClose as $day){
             if($dateVisite->format('m-d') == $day->format('m-d')){
-                dump($day);
                 return true;
             }
         }

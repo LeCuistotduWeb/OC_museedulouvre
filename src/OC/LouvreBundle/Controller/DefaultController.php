@@ -82,10 +82,8 @@ class DefaultController extends Controller
             $em->persist($commande);
             $em->flush();
 
-            // verifie si le paiment et validé
-            $paid = $stripePayement->isPaid();
             // si paiment validé
-            if ($paid == true) {
+            if ($stripePayement->isPaid()) {
                 //marque comme commande payé
                 $commande->setPaid(true);
                 $em->flush();
@@ -95,7 +93,7 @@ class DefaultController extends Controller
                 $this->addFlash('success', 'Votre commande est bien enregistrée. Vos billets on été envoyés par email.');
                 $session->remove('commande');
 
-                return $this->render('default/index.html.twig', [
+                return $this->redirectToRoute('oc_louvre_homepage', [
                     'prices' => $this->getParameter('prices'),
                     'limitHalfDay' => $this->getParameter('limitHalfDay'),
                 ]);

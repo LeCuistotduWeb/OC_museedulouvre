@@ -42,9 +42,9 @@ class CommandeType extends AbstractType
                 'invalid_message' => 'Les emails ne sont pas identique.',
                 'first_options'  => array('label' => 'Email de réception des billets'),
                 'second_options' => array('label' => 'Confirmer l\'adress email de reception '),
-            ])
+            ]);
             
-            ->add('save', SubmitType::class, array('label' => 'Suivant'));
+//            ->add('save', SubmitType::class, array('label' => 'Suivant'));
     }
     /**
      * {@inheritdoc}

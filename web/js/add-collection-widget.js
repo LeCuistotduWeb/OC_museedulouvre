@@ -18,8 +18,10 @@ $(document).ready(function() {
         // On crée un objet jquery qui contient ce template
         var $prototype = $(template);
 
-        // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
-        addDeleteLink($prototype);
+        if(index != 0){
+            // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
+            addDeleteLink($prototype);
+        }
 
         // On ajoute le prototype modifié à la fin de la balise <div>
         $container.append($prototype);
@@ -53,7 +55,7 @@ $(document).ready(function() {
     });
 
     // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
-    if (index === 0) {
+    if (index == 0) {
         addCategory($container);
     } else {
         // S'il existe déjà des catégories, on ajoute un lien de suppression pour chacune d'entre elles

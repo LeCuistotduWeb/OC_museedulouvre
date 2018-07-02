@@ -44,7 +44,8 @@
                     {{ form_widget(form.emailSend, {'attr': {'class': 'form-control'}}) }}
                 </div>
 
-                {{ form_widget(form.save, {'attr': {'class': 'btn btn-lg btn-warning my-3 float-right text-white'}}) }}
+                {#{{ form_widget(form.save, {'attr': {'class': 'btn btn-lg btn-warning my-3 float-right text-white'}}) }}#}
+                <input type="submit" class="btn btn-lg btn-warning my-3 float-right text-white">
                 {{ form_rest(form) }}
                 {{ form_end(form) }}
             </div>

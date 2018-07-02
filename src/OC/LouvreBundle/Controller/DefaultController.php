@@ -37,8 +37,12 @@ class DefaultController extends Controller
     public function newCommandeAction(Request $request, CommandeService $commandeService): Response
     {
         $session = $request->getSession();
-        
-        $form = $this->get('form.factory')->create(CommandeType::class, new Commande());
+        if($session->get('commande')){
+            $commande = $session->get('commande');
+        }else{
+            $commande = new Commande();
+        }
+        $form = $this->get('form.factory')->create(CommandeType::class, $commande);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

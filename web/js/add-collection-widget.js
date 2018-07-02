@@ -55,7 +55,6 @@ $(document).ready(function() {
     // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
     if (index === 0) {
         addCategory($container);
-        $deleteLink.hide();
     } else {
         // S'il existe déjà des catégories, on ajoute un lien de suppression pour chacune d'entre elles
         $container.children('div').each(function() {

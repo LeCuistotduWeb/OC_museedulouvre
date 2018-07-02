@@ -24,7 +24,7 @@ class DefaultControllerTest extends WebTestCase
     public function testSendMailIsUp()
     {
         $client = static::createClient();
-        $client->request('GET', '/mail/2');
+        $client->request('GET', '/send/2');
 
         $this->assertSame(200, $client->getResponse()->getStatusCode());
     }

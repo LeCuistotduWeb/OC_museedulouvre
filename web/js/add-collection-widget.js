@@ -18,7 +18,7 @@ $(document).ready(function() {
         // On crée un objet jquery qui contient ce template
         var $prototype = $(template);
 
-        if(index != 0){
+        if(index !== 0){
             // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
             addDeleteLink($prototype);
         }

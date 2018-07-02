@@ -112,9 +112,10 @@ class DefaultController extends Controller
     }
 
     /**
-     * test envoyer une commande par email
+     * envoyer une commande par email
      * @param $id
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param EmailCommande $emailCommande
+     * @return Response
      * @throws \Twig_Error_Loader
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax

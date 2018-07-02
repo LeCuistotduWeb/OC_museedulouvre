@@ -86,9 +86,8 @@ class CommandeService
     public function commandeValid(){
         if ($this->session->getFlashBag()->peekAll() == null){
             return true;
-        }else{
-            return false;
         }
+        return false;
     }
 
     /**
@@ -110,9 +109,7 @@ class CommandeService
         }elseif ($interval > 60) {                      //tarif senior
             return $this->prices['senior'];
         }
-        else {
-            return $this->prices['normal'];
-        }
+        return $this->prices['normal'];
     }
 
     /**

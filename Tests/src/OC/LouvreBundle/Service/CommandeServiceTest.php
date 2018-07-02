@@ -14,10 +14,8 @@ use PHPUnit\Framework\TestCase;
 class CommandeServiceTest extends TestCase
 {
     private $prices;
-    private $maxTicketsPerDay;
     private $em;
     private $session;
-    private $limitHalfDay;
 
     public function setUp()
     {

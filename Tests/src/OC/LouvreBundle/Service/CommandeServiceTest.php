@@ -32,10 +32,7 @@ class CommandeServiceTest extends TestCase
             ->getMock();
     }
 
-    /**
-     * @test
-     */
-    public function calculAge(){
+    public function testCalculAge(){
         $commandeService = new CommandeService([],1000,$this->em,$this->session,14);
         $birthday = new \DateTime('1991-06-01');
         $dateVisite = new \DateTime('2018-07-14');
@@ -43,10 +40,7 @@ class CommandeServiceTest extends TestCase
         $this->assertSame(27, $result);
     }
 
-    /**
-     * @test
-     */
-    public function calculTicketPriceTypeNormal(){
+    public function testCalculTicketPriceTypeNormal(){
         $this->prices = [
             'baby' => 0,
             'enfant' => 8,

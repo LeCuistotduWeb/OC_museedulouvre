@@ -13,22 +13,19 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class DefaultControllerTest extends WebTestCase
 {
-    private $client = null;
-
-    public function setUp()
-    {
-        $this->client = static::createClient();
-    }
-
-
     public function testIndexIsUp()
     {
-        $this->client->request('GET', '/');
+        $client = static::createClient();
+        $client->request('GET', '/');
 
-        static::assertEquals(
-            Response::HTTP_OK,
-            $this->client->getResponse()->getStatusCode()
-        );
-        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(200, $client->getResponse()->getStatusCode());
+    }
+
+    public function testSendMailIsUp()
+    {
+        $client = static::createClient();
+        $client->request('GET', '/mail/2');
+
+        $this->assertSame(200, $client->getResponse()->getStatusCode());
     }
 }

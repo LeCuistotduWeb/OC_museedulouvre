@@ -5,24 +5,6 @@ $(document).ready(function() {
     // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
     var index = $container.find(':input').length;
 
-    // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
-    $('#add_category').click(function(e) {
-        addCategory($container);
-
-        e.preventDefault(); // évite qu'un # apparaisse dans l'URL
-        return false;
-    });
-
-    // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
-    if (index == 0) {
-        addCategory($container);
-    } else {
-        // S'il existe déjà des catégories, on ajoute un lien de suppression pour chacune d'entre elles
-        $container.children('div').each(function() {
-            addDeleteLink($(this));
-        });
-    }
-
     // La fonction qui ajoute un formulaire CategoryType
     function addCategory($container) {
         // Dans le contenu de l'attribut « data-prototype », on remplace :
@@ -60,6 +42,24 @@ $(document).ready(function() {
 
             e.preventDefault(); // évite qu'un # apparaisse dans l'URL
             return false;
+        });
+    }
+    // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+    $('#add_category').click(function(e) {
+        addCategory($container);
+
+        e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+        return false;
+    });
+
+    // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
+    if (index === 0) {
+        addCategory($container);
+        $deleteLink.hide();
+    } else {
+        // S'il existe déjà des catégories, on ajoute un lien de suppression pour chacune d'entre elles
+        $container.children('div').each(function() {
+            addDeleteLink($(this));
         });
     }
 });

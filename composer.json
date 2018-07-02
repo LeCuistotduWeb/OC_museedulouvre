@@ -14,11 +14,11 @@
         "files": [ "vendor/symfony/symfony/src/Symfony/Component/VarDumper/Resources/functions/dump.php" ]
     },
     "require": {
-        "php": ">=7.2",
+        "php": ">=5.5.9",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/orm": "^2.5",
         "incenteev/composer-parameter-handler": "^2.0",
-        "phpunit/phpunit": "^7",
+        "phpunit/phpunit": ">5.7",
         "sensio/distribution-bundle": "^5.0.19",
         "sensio/framework-extra-bundle": "^5.0.0",
         "squizlabs/php_codesniffer": "^3.3",
@@ -32,7 +32,9 @@
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.0",
         "sensio/generator-bundle": "^3.0",
-        "symfony/phpunit-bridge": "^3.0"
+        "symfony/browser-kit": "^3.4",
+        "symfony/css-selector": "^3.4",
+        "symfony/phpunit-bridge": "^4.1"
     },
     "scripts": {
         "symfony-scripts": [

@@ -10,34 +10,5 @@ namespace OC\LouvreBundle\Repository;
  */
 class CommandeRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getCommandeWithTicketsAndVisitor() {
-        $qb = $this->createQueryBuilder('a');
-        $qb
-            ->innerJoin('a.tickets','c')
-            ->addSelect('c');
-        $qb
-            ->innerJoin('c.visitor','d')
-            ->addSelect('d');
-//        $qb
-//            ->where('a.id = :id')
-//            ->setParameter('id', $id);
-        return $qb->getQuery()->getResult();
-    }
 
-    public function findByAuthorAndDate($year)
-    {
-        $qb = $this->createQueryBuilder('a');
-
-        $qb->where('a.author = :author')
-            ->setParameter('author', $author)
-            ->andWhere('a.date < :year')
-            ->setParameter('year', $year)
-            ->orderBy('a.date', 'DESC')
-        ;
-
-        return $qb
-            ->getQuery()
-            ->getResult()
-            ;
-    }
 }

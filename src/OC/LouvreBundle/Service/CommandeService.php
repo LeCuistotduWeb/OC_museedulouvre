@@ -15,8 +15,6 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class CommandeService
 {
     private $prices;
-    private $maxTicketsPerDay;
-    private $limiHalfDay;
     private $em;
     private $session;
     private $today;
@@ -116,16 +114,16 @@ class CommandeService
         $interval = $this->calculeAge($birthday, $dateVisite);
 
         if($interval < 4){                              //tarif baby
-            return $price = $this->prices['baby'];
+            return $this->prices['baby'];
         }elseif ($interval > 4 && $interval < 12) {     //tarif enfant
-            return $price = $this->prices['enfant'];
+            return $this->prices['enfant'];
         }elseif ($interval > 12 && $interval < 60) {    //tarif normal
-            return $price = $this->prices['normal'];
+            return $this->prices['normal'];
         }elseif ($interval > 60) {                      //tarif senior
-            return $price = $this->prices['senior'];
+            return $this->prices['senior'];
         }
         else {
-            return $price = $this->prices['normal'];
+            return $this->prices['normal'];
         }
     }
 
@@ -145,7 +143,7 @@ class CommandeService
      * @return mixed
      */
     public function reductionTicketPrices(){
-        return $price = $this->prices['reduit'];
+        return $this->prices['reduit'];
     }
 
     /**
@@ -156,7 +154,7 @@ class CommandeService
      */
     public function calculeAge(\DateTime $birthday, \DateTime $dateVisite):int
     {
-        return $age = $dateVisite->diff($birthday)->y;
+        return $dateVisite->diff($birthday)->y;
     }
 
     /**

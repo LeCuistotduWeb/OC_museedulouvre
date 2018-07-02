@@ -195,7 +195,6 @@ class Commande
     }
     public function createCodeReserv(){
         $date = $this->getDateVisite();
-        $id = $this->getId();
         return 'D' . date_format($date, 'dmY') . '-C' . rand();
     }
 

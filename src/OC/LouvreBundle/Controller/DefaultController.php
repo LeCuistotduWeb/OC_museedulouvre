@@ -17,10 +17,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class DefaultController extends Controller
 {
     /**
-     * page principale
-     * @return \Symfony\Component\HttpFoundation\Response
+     * page d'accueil
+     * @return Response
      */
-    public function indexAction(Request $request, CommandeService $commandeService): Response
+    public function indexAction(): Response
     {
         return $this->render('default/index.html.twig', [
             'prices' => $this->getParameter('prices'),
@@ -51,9 +51,8 @@ class DefaultController extends Controller
                 $session->set('commande', $commande);
                 // redirige vers la page de paiement
                 return $this->redirectToRoute('oc_louvre_stripe_payment', ['commande' => $commande,]);
-            }else{
-                return $this->render('Billeterie/billeterie.html.twig', ['form' => $form->createView(),]);
             }
+            return $this->render('Billeterie/billeterie.html.twig', ['form' => $form->createView(),]);
 
         }
         return $this->render('Billeterie/billeterie.html.twig', ['form' => $form->createView(),]);

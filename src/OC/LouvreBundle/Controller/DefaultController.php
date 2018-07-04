@@ -12,13 +12,14 @@ use Symfony\Component\HttpFoundation\Request;
 use OC\LouvreBundle\Entity\Commande;
 use OC\LouvreBundle\Form\CommandeType;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends Controller
 {
     /**
      * page d'accueil
      * @return Response
+     * @Route("/", name="oc_louvre_homepage")
      */
     public function indexAction(): Response
     {
@@ -30,6 +31,7 @@ class DefaultController extends Controller
 
     /**
      * créer une nouvelle commande
+     * @Route("/order", name="oc_louvre_new_commande")
      * @param Request $request
      * @param CommandeService $commandeService
      * @return Response
@@ -37,11 +39,8 @@ class DefaultController extends Controller
     public function newCommandeAction(Request $request, CommandeService $commandeService): Response
     {
         $session = $request->getSession();
-        if($session->get('commande')){
-            $commande = $session->get('commande');
-        }else{
-            $commande = new Commande();
-        }
+        $commande = ($session->get('commande')) ? $commande = $session->get('commande'): $commande = new Commande();
+
         $form = $this->get('form.factory')->create(CommandeType::class, $commande);
         $form->handleRequest($request);
 
@@ -64,6 +63,7 @@ class DefaultController extends Controller
 
     /**
      * enregistre paie et envoi la commande
+     * @Route("/payment", name="oc_louvre_stripe_payment")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Twig_Error_Loader
@@ -108,11 +108,12 @@ class DefaultController extends Controller
                     'listTickets' => $commande->getTickets(),
                 ]);
         }
-        throw new NotFoundHttpException('Erreur : Aucune commande n\'a été créée.');
+        throw new \LogicException('Erreur : Aucune commande n\'a été créée.');
     }
 
     /**
      * envoyer une commande par email
+     * @Route("/send/{id}", name="oc_louvre_mailer_send")
      * @param $id
      * @param EmailCommande $emailCommande
      * @return Response
@@ -132,11 +133,16 @@ class DefaultController extends Controller
         // message success validation de commande
         $this->addFlash('success', 'Votre commande est bien enregistrée. Vos billets on été envoyés par email.');
 
-        return $this->render('Default/index.html.twig', ['prices' => $this->getParameter('prices')]);
+        return $this->render('Default/index.html.twig',
+            [
+                'prices' => $this->getParameter('prices'),
+                'limitHalfDay' => $this->getParameter('limitHalfDay'),
+            ]);
     }
 
     /**
      * test visualiser le mail d'une commande
+     * @Route("/mail/{id}", name="oc_louvre_mailer_view")
      * @param $id
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -151,6 +157,8 @@ class DefaultController extends Controller
             [
                 'listTickets' => $listTickets,
                 'commande' => $commande,
+                'prices' => $this->getParameter('prices'),
+                'limitHalfDay' => $this->getParameter('limitHalfDay'),
             ]);
     }
 }

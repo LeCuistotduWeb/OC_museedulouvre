@@ -28,7 +28,7 @@ class EmailCommande extends \Twig_Extension
      * @throws \Twig_Error_Syntax
      */
     public function sendMail($commande)
-    {   
+    {
         // recupère les tickets de la commande $id
         $listTickets = $commande->getTickets();
         // mail
@@ -48,19 +48,19 @@ class EmailCommande extends \Twig_Extension
         return $this->mailer->send($mail);
     }
 
-    /**
-     * afficher un mail.
-     * @param $commande
-     * @return string
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
-     */
-    public function viewMail($commande)
-    {   
-        // recupère les tickets de la commande $id
-        $listTickets = $commande->getTickets();
-
-        return $this->templating->render('Email/emailCommande.html.twig', ['listTickets' => $listTickets]);
-    }
+//    /**
+//     * afficher un mail.
+//     * @param $commande
+//     * @return string
+//     * @throws \Twig_Error_Loader
+//     * @throws \Twig_Error_Runtime
+//     * @throws \Twig_Error_Syntax
+//     */
+//    public function viewMail($commande)
+//    {
+//        // recupère les tickets de la commande $id
+//        $listTickets = $commande->getTickets();
+//
+//        return $this->templating->render('Email/emailCommande.html.twig', ['listTickets' => $listTickets]);
+//    }
 }

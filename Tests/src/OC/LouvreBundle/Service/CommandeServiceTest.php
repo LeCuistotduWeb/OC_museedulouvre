@@ -13,9 +13,16 @@ use PHPUnit\Framework\TestCase;
 
 class CommandeServiceTest extends TestCase
 {
-    private $prices;
     private $em;
     private $session;
+    private $prices = [
+        'baby' => 0,
+        'enfant' => 8,
+        'normal' => 16,
+        'senior' => 12,
+        'reduit' => 10,
+        'halfday' => 10,
+    ];
 
     public function setUp()
     {
@@ -33,8 +40,8 @@ class CommandeServiceTest extends TestCase
     /**
      * @test
      */
-    public function CalculAge(){
-        $commandeService = new CommandeService([],1000,$this->em,$this->session,14);
+    public function calculAge(){
+        $commandeService = new CommandeService($this->prices,1000,$this->em,$this->session,14);
         $birthday = new \DateTime('1991-06-01');
         $dateVisite = new \DateTime('2018-07-14');
         $result = $commandeService->calculeAge( $birthday, $dateVisite);
@@ -44,16 +51,45 @@ class CommandeServiceTest extends TestCase
     /**
      * @test
      */
-    public function CalculTicketPriceTypeNormal(){
-        $this->prices = [
-            'baby' => 0,
-            'enfant' => 8,
-            'normal' => 16,
-            'senior' => 12,
-            'reduit' => 10,
-            'halfday' => 10,
-        ];
+    public function calculReductionTicketPrices(){
+        $commandeService = new CommandeService($this->prices,1000,$this->em,$this->session,14);
+        $result = $commandeService->reductionTicketPrices();
+        $this->assertSame(10, $result);
+    }
 
+    /**
+     * @test
+     */
+    public function calculReductionTicketPricesPourcent(){
+        $commandeService = new CommandeService($this->prices,1000,$this->em,$this->session,14);
+        $price = 16;
+        $result = $commandeService->reductionTicketPricesPourcent($price);
+        $this->assertEquals(8.0, $result);
+    }
+
+//    /**
+//     * @test
+//     */
+//    public function commandeValidIsTrue(){
+//        $commandeService = new CommandeService($this->prices,1000,$this->em,$this->session,14);
+//        $messError = count($this->session->getFlashBag()->peekAll());
+//        $commandeService->commandeValid();
+//        $this->assertSame(true, $messError);
+//    }
+
+    /**
+     * @test
+     */
+    public function reductionHalfday(){
+        $commandeService = new CommandeService($this->prices,1000,$this->em,$this->session,14);
+        $result = $commandeService->reductionHalfday(16);
+        $this->assertEquals(8, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function calculTicketPriceTypeNormal(){
         $commandeService = new CommandeService($this->prices, 1000, $this->em, $this->session, 14);
 
         $birthday = new \DateTime('1991-06-01');
@@ -61,5 +97,44 @@ class CommandeServiceTest extends TestCase
 
         $result = $commandeService->calculeTicketPrices($birthday, $dateVisite);
         $this->assertEquals(16, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function calculTicketPriceTypeSenior(){
+        $commandeService = new CommandeService($this->prices, 1000, $this->em, $this->session, 14);
+
+        $birthday = new \DateTime('1953-10-14');
+        $dateVisite = new \DateTime('2018-07-14');
+
+        $result = $commandeService->calculeTicketPrices($birthday, $dateVisite);
+        $this->assertEquals(12, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function calculTicketPriceTypeBaby(){
+        $commandeService = new CommandeService($this->prices, 1000, $this->em, $this->session, 14);
+
+        $birthday = new \DateTime('2016-10-14');
+        $dateVisite = new \DateTime('2018-07-14');
+
+        $result = $commandeService->calculeTicketPrices($birthday, $dateVisite);
+        $this->assertEquals(0, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function calculTicketPriceTypeEnfant(){
+        $commandeService = new CommandeService($this->prices, 1000, $this->em, $this->session, 14);
+
+        $birthday = new \DateTime('2010-02-20');
+        $dateVisite = new \DateTime('2018-07-14');
+
+        $result = $commandeService->calculeTicketPrices($birthday, $dateVisite);
+        $this->assertEquals(8, $result);
     }
 }

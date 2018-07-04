@@ -40,7 +40,6 @@ class CommandeService
      * @param $commande
      */
     public function checkCommande($commande){
-
         $commande->setCodeReservation($commande->createCodeReserv());
 
         // si nombre de ticket = 0
@@ -75,16 +74,19 @@ class CommandeService
             if ($reduction == 1) {
                 $ticket->setPrice($this->reductionTicketPrices());
             }
+            return $commande;
         }
 
         // verifie si il reste assez de billet disponible
         if ($this->getTicketDispo($commande) == 0) {
             $this->session->getFlashBag()->add('danger ', 'Il ne reste plus assez de ticket pour cette date.');
         }
+        return true;
     }
 
     public function commandeValid(){
-        if ($this->session->getFlashBag()->peekAll() == null){
+        $nbError = $this->session->getFlashBag()->peekAll();
+        if (count($nbError) == 0){
             return true;
         }
         return false;
@@ -106,10 +108,9 @@ class CommandeService
             return $this->prices['enfant'];
         }elseif ($interval > 12 && $interval < 60) {    //tarif normal
             return $this->prices['normal'];
-        }elseif ($interval > 60) {                      //tarif senior
-            return $this->prices['senior'];
         }
-        return $this->prices['normal'];
+        //sinon tarif senior
+        return $this->prices['senior'];
     }
 
     /**
@@ -118,7 +119,7 @@ class CommandeService
      * @return float
      */
     public function reductionTicketPricesPourcent($price):float {
-        $reduction = $price * 0.25;
+        $reduction = $price * 0.5;
         $price -=  $reduction;
         return $price;
     }
@@ -140,15 +141,6 @@ class CommandeService
     public function calculeAge(\DateTime $birthday, \DateTime $dateVisite):int
     {
         return $dateVisite->diff($birthday)->y;
-    }
-
-    /**
-     * recupere le prix
-     * @return array
-     */
-    public function getPrices():array
-    {
-        return $this->prices;
     }
 
     /**

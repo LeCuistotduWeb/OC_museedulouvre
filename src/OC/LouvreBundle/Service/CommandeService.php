@@ -153,7 +153,7 @@ class CommandeService
      * @return float|int
      */
     public function reductionHalfday():float {
-        return $price = $this->prices['reduit'];
+        return $this->prices['halfday'];
     }
 
     /**

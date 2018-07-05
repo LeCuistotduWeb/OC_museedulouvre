@@ -60,6 +60,10 @@ class CommandeService
                 $ticket->setPrice($this->reductionHalfday($ticket->getPrice()));
             }
 
+            if ($dateVisite < $this->today->modify('-1 day')) {
+                $this->session->getFlashBag()->add('danger', 'La date de visite ne peut être inferieur à la date d\'aujourdhui.');
+            }
+
             // si jour de visite est aujourd'hui && heure dachat superieur a heure limit && demmande billet journée;
             if (($this->dateVisiteIsDateToday($dateVisite) == true) && ($this->hourHalfDay() == 1) && ($halfDay == 0)) {
                 $this->session->getFlashBag()->add('danger', 'L\'achat d\'un billet journée pour le jour même n\'est plus disponnible après ' . $this->limiHalfDay . 'h.');
@@ -67,7 +71,7 @@ class CommandeService
 
             // si jour de visite est un jour de fermeture
             if (($this->verifyIfDateIsClose($dateVisite) == 1) || ($this->dayClose($dateVisite) == 1)) {
-                $this->session->getFlashBag()->add('danger ', 'Le musée est fermé tout les mardi, les 1er mai, 1er novembre et 25 décembre.. Veuillez choisir une autre date de visite.');
+                $this->session->getFlashBag()->add('danger ', 'Il n’est pas possible de réserver pour les dimanches, les jours fériés et de fermeture. Veuillez choisir une autre date de visite.');
             }
 
             //si billet avec reduction
@@ -148,8 +152,8 @@ class CommandeService
      * @param $price
      * @return float|int
      */
-    public function reductionHalfday($price):float {
-        return $price/2;
+    public function reductionHalfday():float {
+        return $price = $this->prices['reduit'];
     }
 
     /**
@@ -185,6 +189,11 @@ class CommandeService
         return $hour > $limitHour;
     }
 
+    /**
+     * verifie si date de visite = date du jour
+     * @param $dateVisite
+     * @return bool
+     */
     public function dateVisiteIsDateToday($dateVisite){
         $today = $this->today->format('Y-m-d');
         $dateVisite = $dateVisite->format('Y-m-d');
@@ -196,9 +205,11 @@ class CommandeService
     }
 
     public function dayClose($dateVisite){
-        $dayClose = "Tuesday";
-        if (date_format($dateVisite, 'l') == $dayClose){
-            return true ;
+        $dayClose = ["Tuesday","Sunday"];
+        foreach ($dayClose as $day){
+            if (date_format($dateVisite, 'l') == $day){
+                return true ;
+            }
         }
         return false;
     }
@@ -207,12 +218,18 @@ class CommandeService
      * @param $dateVisite
      * @return bool
      */
-    public function verifyIfDateIsClose($dateVisite){
+    public function verifyIfDateIsClose($dateVisite ){
         $year = date('Y');
         $dayClose = [
-            new \DateTime($year.'-05-01'),
-            new \DateTime($year.'-12-25'),
             new \DateTime($year.'-11-01'),
+            new \DateTime($year.'-11-11'),
+            new \DateTime($year.'-12-25'),
+            new \DateTime($year.'-01-01'),
+            new \DateTime($year.'-05-01'),
+            new \DateTime($year.'-05-08'),
+            new \DateTime($year.'-08-15'),
+            new \DateTime($year.'-07-14'),
+            new \DateTime($year.'-05-15'),
         ];
 
         foreach ($dayClose as $day){

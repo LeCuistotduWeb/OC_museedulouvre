@@ -64,6 +64,28 @@ class DefaultControllerTest extends WebTestCase
     /**
      * @test
      */
+    public function viewMailIsUp()
+    {
+        $client = static::createClient();
+        $client->request('GET', '/mail/2');
+
+        $this->assertSame(200, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @test
+     */
+    public function sendMailIsUp()
+    {
+        $client = static::createClient();
+        $client->request('GET', '/send/2');
+
+        $this->assertSame(200, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @test
+     */
     public function stripePaymentComandeNotCreate()
     {
         $client = static::createClient();

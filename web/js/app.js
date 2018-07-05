@@ -23,7 +23,7 @@ $(function() {
 
   //cacher les messages flash après xx sec
   let messageflash = $(".alert");
-  messageflash.delay(3000).slideUp(300);
+  messageflash.delay(5000).slideUp(300);
 });
 
 

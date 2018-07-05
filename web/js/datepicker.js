@@ -51,10 +51,10 @@
 } ) );
 
 // fonction disable date datepicker
-function DisableTuesday(date) {
+function DisableDay(date) {
     var day = date.getDay();
     // If day == 1 then it is tuesday
-    if (day == 2) {
+    if ((day === 2) || (day === 0)) {
         return [false] ;
     } else {
         return [true] ;
@@ -71,7 +71,7 @@ $( function() {
         showAnim: "slide",
         showOptions: { direction: "up" },
         maxDate: "+2Y",
-        beforeShowDay: DisableTuesday,
+        beforeShowDay: DisableDay,
         showButtonPanel: true,
     });
 });

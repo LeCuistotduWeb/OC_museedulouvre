@@ -193,6 +193,7 @@ class Commande
         }
         return $priceTotal;
     }
+
     public function createCodeReserv(){
         $date = $this->getDateVisite();
         return 'D' . date_format($date, 'dmY') . '-C' . rand();

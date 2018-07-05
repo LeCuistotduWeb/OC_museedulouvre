@@ -48,9 +48,10 @@ class StripePayement
         } catch(\Stripe\Error\Card $e) {
             // Since it's a decline, \Stripe\Error\Card will be caught
             $body = $e->getJsonBody();
-            $err  = $body['error'];
+//            $err  = $body['error'];
 
-            $this->session->getFlashBag()->add('danger','Message is:' . $err['message']);
+//            $this->session->getFlashBag()->add('danger','Message is:' . $err['message']);
+            $this->session->getFlashBag()->add('danger','Votre carte a été refusée. Veuillez entrer une carte valide.');
             $this->statut = false;
         } catch (\Stripe\Error\RateLimit $e) {
             $this->session->getFlashBag()->add('danger','Trop de demandes faites à l\'API trop rapidement');

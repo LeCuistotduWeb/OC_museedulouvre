@@ -57,7 +57,7 @@ class CommandeService
             $ticket->setPrice($this->calculeTicketPrices($dateBirthday, $dateVisite));
 
             if ($halfDay == 1) {
-                $ticket->setPrice($this->reductionHalfday($ticket->getPrice()));
+                $ticket->setPrice($this->reductionHalfday());
             }
 
             if ($dateVisite < $this->today->modify('-1 day')) {

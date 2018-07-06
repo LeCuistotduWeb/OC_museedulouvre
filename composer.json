@@ -15,6 +15,7 @@
     },
     "require": {
         "php": ">=7",
+        "coresphere/console-bundle": "^0.5.0",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/orm": "^2.5",
         "incenteev/composer-parameter-handler": "^2.0",

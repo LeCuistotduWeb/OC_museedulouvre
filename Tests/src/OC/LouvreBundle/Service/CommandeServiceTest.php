@@ -10,6 +10,8 @@ namespace Tests\OC\LouvreBundle\Service;
 
 use OC\LouvreBundle\Service\CommandeService;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 
 class CommandeServiceTest extends TestCase
 {
@@ -67,15 +69,15 @@ class CommandeServiceTest extends TestCase
         $this->assertEquals(8.0, $result);
     }
 
-//    /**
-//     * @test
-//     */
-//    public function commandeValidIsTrue(){
-//        $commandeService = new CommandeService($this->prices,1000,$this->em,$this->session,14);
-//        $messError = count($this->session->getFlashBag()->peekAll());
-//        $commandeService->commandeValid();
-//        $this->assertSame(true, $messError);
-//    }
+    /**
+ * @test
+ */
+    public function commandeValidIsTrue(){
+        $session = new Session(new MockArraySessionStorage());
+        $commandeService = new CommandeService($this->prices,1000,$this->em,$session,14);
+        $result = $commandeService->commandeValid();
+        $this->assertTrue($result);
+    }
 
     /**
      * @test
@@ -83,7 +85,7 @@ class CommandeServiceTest extends TestCase
     public function reductionHalfday(){
         $commandeService = new CommandeService($this->prices,1000,$this->em,$this->session,14);
         $result = $commandeService->reductionHalfday(16);
-        $this->assertEquals(8, $result);
+        $this->assertEquals(10, $result);
     }
 
     /**

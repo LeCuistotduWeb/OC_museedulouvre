@@ -51,8 +51,14 @@ class DefaultController extends Controller
             $commandeService->checkCommande($commande);
 
             if ($commandeService->commandeValid() == true){
+                //enregistrement commande en base de données
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($commande);
                 $session->set('commande', $commande);
+                $em->flush();
                 // redirige vers la page de paiement
+
+                dump($commande);
                 return $this->redirectToRoute('oc_louvre_stripe_payment', ['commande' => $commande,]);
             }
             return $this->render('Billeterie/billeterie.html.twig', ['form' => $form->createView(),]);
@@ -74,20 +80,19 @@ class DefaultController extends Controller
     {
         $session = $request->getSession();
         $commande = $session->get('commande');
-
+        dump($commande);
         if($commande != null) {
+
             // recupèration du token
             $token = $request->request->get('stripeToken');
             $stripePayement->procededPayement($token, $commande);
 
-            //enregistrement commande en base de données
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($commande);
-            $em->flush();
-
             // si paiment validé
             if ($stripePayement->isPaid()) {
                 //marque comme commande payé
+                $em = $this->getDoctrine()->getManager();
+                $commande = $em->getRepository('OCLouvreBundle:Commande')->find($session->get('commande')->getId());
+                $em->persist($commande);
                 $commande->setPaid(true);
                 $em->flush();
                 // envoi de la commande par mail
@@ -96,10 +101,7 @@ class DefaultController extends Controller
                 $this->addFlash('success', 'Votre commande est bien enregistrée. Vos billets on été envoyés par email.');
                 $session->remove('commande');
 
-                return $this->redirectToRoute('oc_louvre_homepage', [
-                    'prices' => $this->getParameter('prices'),
-                    'limitHalfDay' => $this->getParameter('limitHalfDay'),
-                ]);
+                return $this->redirectToRoute('oc_louvre_homepage');
             }
 
             return $this->render('Stripe/stripe.html.twig',
@@ -108,7 +110,17 @@ class DefaultController extends Controller
                     'listTickets' => $commande->getTickets(),
                 ]);
         }
-        throw new \LogicException('Erreur : Aucune commande n\'a été créée.');
+        $this->addFlash('danger', 'Vous n\'avez aucune commande de crée.');
+        return $this->redirectToRoute('oc_louvre_homepage');
+    }
+
+    /**
+     * @Route("/cancelCommande", name="oc_louvre_cancel_commande")
+     */
+    public function cancelCommande(Request $request){
+        $session = $request->getSession();
+        $session->remove('commande');
+        return $this->redirectToRoute('oc_louvre_homepage');
     }
 
     /**

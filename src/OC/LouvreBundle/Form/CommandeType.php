@@ -52,7 +52,7 @@ class CommandeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'OC\LouvreBundle\Entity\Commande'
+            'data_class' => 'OC\LouvreBundle\Entity\CommandeInterface'
         ));
     }
 

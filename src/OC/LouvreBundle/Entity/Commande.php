@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="OC\LouvreBundle\Repository\CommandeRepository")
  *
  */
-class Commande
+class Commande implements CommandeInterface
 {
     public function __construct()
     {

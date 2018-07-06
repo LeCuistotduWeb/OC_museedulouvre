@@ -78,7 +78,6 @@ class CommandeService
             if ($reduction == 1) {
                 $ticket->setPrice($this->reductionTicketPrices());
             }
-            return $commande;
         }
 
         // verifie si il reste assez de billet disponible

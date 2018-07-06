@@ -55,19 +55,25 @@ class StripePayement
             $this->statut = false;
         } catch (\Stripe\Error\RateLimit $e) {
             $this->session->getFlashBag()->add('danger','Trop de demandes faites à l\'API trop rapidement');
+            $this->statut = false;
             // Too many requests made to the API too quickly
         } catch (\Stripe\Error\InvalidRequest $e) {
+            $this->statut = false;
             // Invalid parameters were supplied to Stripe's API
         } catch (\Stripe\Error\Authentication $e) {
+            $this->statut = false;
             // Authentication with Stripe's API failed
             // (maybe you changed API keys recently)
         } catch (\Stripe\Error\ApiConnection $e) {
+            $this->statut = false;
             // Network communication with Stripe failed
         } catch (\Stripe\Error\Base $e) {
+            $this->statut = false;
             // Display a very generic error to the user, and maybe send
             // yourself an email
         } catch (Exception $e) {
             $this->session->getFlashBag()->add('danger','Une erreur s\'est produite veuillez réessayer ulterieuerement.');
+            $this->statut = false;
             // Something else happened, completely unrelated to Stripe
         }
     }

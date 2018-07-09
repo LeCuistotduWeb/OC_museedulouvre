@@ -123,54 +123,54 @@ class DefaultController extends Controller
         return $this->redirectToRoute('oc_louvre_homepage');
     }
 
-    /**
-     * envoyer une commande par email
-     * @Route("/send/{id}", name="oc_louvre_mailer_send")
-     * @param $id
-     * @param EmailCommande $emailCommande
-     * @return Response
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
-     */
-    public function sendMailAction($id, EmailCommande $emailCommande)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        // recupère la commande $id
-        $commande = $em->getRepository('OCLouvreBundle:Commande')->find($id);
-        // envoi de la commande par mail
-        $emailCommande->sendMail($commande);
-
-        // message success validation de commande
-        $this->addFlash('success', 'Votre commande est bien enregistrée. Vos billets on été envoyés par email.');
-
-        return $this->render('Default/index.html.twig',
-            [
-                'prices' => $this->getParameter('prices'),
-                'limitHalfDay' => $this->getParameter('limitHalfDay'),
-            ]);
-    }
-
-    /**
-     * test visualiser le mail d'une commande
-     * @Route("/mail/{id}", name="oc_louvre_mailer_view")
-     * @param $id
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function mailAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $commande = $em->getRepository('OCLouvreBundle:Commande')->find($id);
-        $listTickets = $commande->getTickets();
-
-        return $this->render('Email/emailCommande.html.twig',
-            [
-                'listTickets' => $listTickets,
-                'commande' => $commande,
-                'prices' => $this->getParameter('prices'),
-                'limitHalfDay' => $this->getParameter('limitHalfDay'),
-            ]);
-    }
+//    /**
+//     * envoyer une commande par email
+//     * @Route("/send/{id}", name="oc_louvre_mailer_send")
+//     * @param $id
+//     * @param EmailCommande $emailCommande
+//     * @return Response
+//     * @throws \Twig_Error_Loader
+//     * @throws \Twig_Error_Runtime
+//     * @throws \Twig_Error_Syntax
+//     */
+//    public function sendMailAction($id, EmailCommande $emailCommande)
+//    {
+//        $em = $this->getDoctrine()->getManager();
+//
+//        // recupère la commande $id
+//        $commande = $em->getRepository('OCLouvreBundle:Commande')->find($id);
+//        // envoi de la commande par mail
+//        $emailCommande->sendMail($commande);
+//
+//        // message success validation de commande
+//        $this->addFlash('success', 'Votre commande est bien enregistrée. Vos billets on été envoyés par email.');
+//
+//        return $this->render('Default/index.html.twig',
+//            [
+//                'prices' => $this->getParameter('prices'),
+//                'limitHalfDay' => $this->getParameter('limitHalfDay'),
+//            ]);
+//    }
+//
+//    /**
+//     * test visualiser le mail d'une commande
+//     * @Route("/mail/{id}", name="oc_louvre_mailer_view")
+//     * @param $id
+//     * @return \Symfony\Component\HttpFoundation\Response
+//     */
+//    public function mailAction($id)
+//    {
+//        $em = $this->getDoctrine()->getManager();
+//
+//        $commande = $em->getRepository('OCLouvreBundle:Commande')->find($id);
+//        $listTickets = $commande->getTickets();
+//
+//        return $this->render('Email/emailCommande.html.twig',
+//            [
+//                'listTickets' => $listTickets,
+//                'commande' => $commande,
+//                'prices' => $this->getParameter('prices'),
+//                'limitHalfDay' => $this->getParameter('limitHalfDay'),
+//            ]);
+//    }
 }

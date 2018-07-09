@@ -8,9 +8,7 @@
 
 namespace Tests\src\OC\LouvreBundle\Controller;
 
-
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 class DefaultControllerTest extends WebTestCase
 {
@@ -25,84 +23,75 @@ class DefaultControllerTest extends WebTestCase
         $this->assertSame(200, $client->getResponse()->getStatusCode());
     }
 
+    /**
+     * @test
+     */
+    public function newCommandeIsUp(){
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/order');
+        $this->assertEquals(1, $crawler->filter('h3:contains("Billeterie")')->count());
+        $this->assertSame(200, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @test
+     */
+    public function paymentIsUp(){
+        $client = static::createClient();
+        $client->request('GET', '/payment');
+        $this->assertSame(302, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @test
+     */
+    public function cancelCommandeIsUp()
+    {
+        $client = static::createClient();
+        $client->request('GET', '/cancelCommande');
+
+        $this->assertSame(302, $client->getResponse()->getStatusCode());
+    }
+
 //    /**
 //     * @test
 //     */
-//    public function newCommandeIsUp()
+//    public function viewMailIsUp()
 //    {
 //        $client = static::createClient();
-//
-//        $crawler = $client->request('GET', '/order');
-//
-//        $form = $crawler->selectButton('Valider')->form();
-//        $form['oc_louvrebundle_commande[dateVisite]'] = '2018-07-26';
-//        $form['oc_louvrebundle_commande[tickets][0][visitor][surname]'] = 'john';
-//        $form['oc_louvrebundle_commande[tickets][0][visitor][name]'] = 'Doe';
-//        $form['oc_louvrebundle_commande[tickets][0][visitor][dateBirthday]'] = '1991-06-01';
-//        $form['oc_louvrebundle_commande[tickets][0][visitor][country]'] = 'FR';
-//        $form['oc_louvrebundle_commande[tickets][0][visitor][reduction]'] = 'true';
-//        $form['oc_louvrebundle_commande[tickets][0][halfday]'] = 'false';
-//        $form['oc_louvrebundle_commande[emailSend][first]'] = 'johndoe@gmail.com';
-//        $form['oc_louvrebundle_commande[emailSend][second]'] = 'johndoe@gmail.com';
-//        $client->submit($form);
-//
-//        $crawler = $client->followRedirect(); // Attention à bien récupérer le crawler mis à jour
-//        $this->assertSame('/payment', $crawler->g);
+//        $client->request('GET', '/mail/1');
+//        $this->assertSame(200, $client->getResponse()->getStatusCode());
 //    }
 
-    /**
-    * @test
-    */
-    public function newCommandeIsUp()
-    {
-        $client = static::createClient();
-        $client->request('GET', '/order');
-
-        $this->assertSame(200, $client->getResponse()->getStatusCode());
-    }
-
-    /**
-     * @test
-     */
-    public function viewMailIsUp()
-    {
-        $client = static::createClient();
-        $client->request('GET', '/mail/2');
-
-        $this->assertSame(200, $client->getResponse()->getStatusCode());
-    }
-
-    /**
-     * @test
-     */
-    public function sendMailIsUp()
-    {
-        $client = static::createClient();
-        $client->request('GET', '/send/2');
-
-        $this->assertSame(200, $client->getResponse()->getStatusCode());
-    }
-
-    /**
-     * @test
-     */
-    public function stripePaymentComandeNotCreate()
-    {
-        $client = static::createClient();
-
-        $client->request('GET', '/payment');
-
-        $this->assertSame(500, $client->getResponse()->getStatusCode());
-    }
-
 //    /**
 //     * @test
 //     */
-//    public function sendMailIsUp()
-//    {
+//    public function newCommandeTestBilleterie(){
 //        $client = static::createClient();
-//        $client->request('GET', '/send/2');
+//        $crawler = $client->request('GET', '/order');
+//        //Sélection basée sur la valeur, l'id ou le nom des boutons
+//        $form = $crawler->selectButton('submit')->form();
 //
-//        $this->assertSame(200, $client->getResponse()->getStatusCode());
+//        $form['oc_louvrebundle_commande[dateVisite]'] = '2018-07-26';
+//
+//        $form['oc_louvrebundle_commande[tickets][0][visitor][surname]'] = 'boyron';
+//        $form['oc_louvrebundle_commande[tickets][0][visitor][name]'] = 'Gaetan';
+//
+//        $form['oc_louvrebundle_commande[tickets][0][visitor][dateBirthday][day]']->select('01');
+//        $form['oc_louvrebundle_commande[tickets][0][visitor][dateBirthday][month]']->select('06');
+//        $form['oc_louvrebundle_commande[tickets][0][visitor][dateBirthday][year]']->select('1991');
+//
+//        $form['oc_louvrebundle_commande[tickets][0][visitor][country]']->select('France');
+//
+//        $form['oc_louvrebundle_commande[tickets][0][visitor][reduction]']->tick();
+//        $form['oc_louvrebundle_commande[tickets][0][halfDay]']->untick();
+//
+//        $form['oc_louvrebundle_commande[emailSend][first]'] = 'gaetan.boyron@gmail.com';
+//        $form['oc_louvrebundle_commande[emailSend][second]'] = 'gaetan.boyron@gmail.com';
+//
+//        $client->submit($form);
+//        $crawler = $client->followRedirect();
+//        var_dump($client->getResponse()->getContent());
+//        $this->assertEquals(0, $crawler->filter('.alert')->count());
 //    }
 }

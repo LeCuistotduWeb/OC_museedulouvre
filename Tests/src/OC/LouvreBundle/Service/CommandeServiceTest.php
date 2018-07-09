@@ -10,8 +10,6 @@ namespace Tests\OC\LouvreBundle\Service;
 
 use OC\LouvreBundle\Service\CommandeService;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 
 class CommandeServiceTest extends TestCase
 {
@@ -67,16 +65,6 @@ class CommandeServiceTest extends TestCase
         $price = 16;
         $result = $commandeService->reductionTicketPricesPourcent($price);
         $this->assertEquals(8.0, $result);
-    }
-
-    /**
- * @test
- */
-    public function commandeValidIsTrue(){
-        $session = new Session(new MockArraySessionStorage());
-        $commandeService = new CommandeService($this->prices,1000,$this->em,$session,14);
-        $result = $commandeService->commandeValid();
-        $this->assertTrue($result);
     }
 
     /**

@@ -57,8 +57,6 @@ class DefaultController extends Controller
                 $session->set('commande', $commande);
                 $em->flush();
                 // redirige vers la page de paiement
-
-                dump($commande);
                 return $this->redirectToRoute('oc_louvre_stripe_payment', ['commande' => $commande,]);
             }
             return $this->render('Billeterie/billeterie.html.twig', ['form' => $form->createView(),]);

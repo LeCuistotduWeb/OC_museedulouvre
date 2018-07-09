@@ -4,6 +4,7 @@ namespace OC\LouvreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use OC\LouvreBundle\Validator as LouvreAssert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -34,6 +35,8 @@ class Commande implements CommandeInterface
      *
      * @ORM\Column(name="dateVisite", type="date")
      * @Assert\Date()
+     * @LouvreAssert\Dayclose()
+     * @LouvreAssert\DateHolidayInFrance()
      */
     private $dateVisite;
 

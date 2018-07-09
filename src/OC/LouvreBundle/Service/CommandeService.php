@@ -69,11 +69,6 @@ class CommandeService
                 $this->session->getFlashBag()->add('danger', 'L\'achat d\'un billet journée pour le jour même n\'est plus disponnible après ' . $this->limiHalfDay . 'h.');
             }
 
-            // si jour de visite est un jour de fermeture
-            if (($this->verifyIfDateIsClose($dateVisite) == 1) || ($this->dayClose($dateVisite) == 1)) {
-                $this->session->getFlashBag()->add('danger ', 'Il n’est pas possible de réserver pour les dimanches, les jours fériés et de fermeture. Veuillez choisir une autre date de visite.');
-            }
-
             //si billet avec reduction
             if ($reduction == 1) {
                 $ticket->setPrice($this->reductionTicketPrices());

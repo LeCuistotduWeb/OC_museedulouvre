@@ -2,7 +2,7 @@
 <html lang="en">
  <head>
   <meta charset="UTF-8">
-  <title>Dashboard for D:\wamp\www\museedulouvre\src\OC\LouvreBundle/Controller</title>
+  <title>Dashboard for D:\wamp\www\museedulouvre\src\OC\LouvreBundle/Validator</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="../.css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="../.css/nv.d3.min.css" rel="stylesheet" type="text/css">
@@ -20,7 +20,7 @@
      <div class="col-md-12">
       <ol class="breadcrumb">
         <li><a href="../index.html">D:\wamp\www\museedulouvre\src\OC\LouvreBundle</a></li>
-        <li><a href="index.html">Controller</a></li>
+        <li><a href="index.html">Validator</a></li>
         <li class="active">(Dashboard)</li>
 
       </ol>
@@ -60,7 +60,8 @@
         </tr>
        </thead>
        <tbody>
-       <tr><td><a href="DefaultController.php.html#17">OC\LouvreBundle\Controller\DefaultController</a></td><td class="text-right">42%</td></tr>
+       <tr><td><a href="DateHolidayInFranceValidator.php.html#16">OC\LouvreBundle\Validator\DateHolidayInFranceValidator</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DaycloseValidator.php.html#15">OC\LouvreBundle\Validator\DaycloseValidator</a></td><td class="text-right">0%</td></tr>
 
        </tbody>
       </table>
@@ -77,7 +78,8 @@
         </tr>
        </thead>
        <tbody>
-       <tr><td><a href="DefaultController.php.html#17">OC\LouvreBundle\Controller\DefaultController</a></td><td class="text-right">28</td></tr>
+       <tr><td><a href="DateHolidayInFranceValidator.php.html#16">OC\LouvreBundle\Validator\DateHolidayInFranceValidator</a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="DaycloseValidator.php.html#15">OC\LouvreBundle\Validator\DaycloseValidator</a></td><td class="text-right">12</td></tr>
 
        </tbody>
       </table>
@@ -115,8 +117,10 @@
         </tr>
        </thead>
        <tbody>
-       <tr><td><a href="DefaultController.php.html#77"><abbr title="OC\LouvreBundle\Controller\DefaultController::stripePaymentAction">stripePaymentAction</abbr></a></td><td class="text-right">28%</td></tr>
-       <tr><td><a href="DefaultController.php.html#39"><abbr title="OC\LouvreBundle\Controller\DefaultController::newCommandeAction">newCommandeAction</abbr></a></td><td class="text-right">40%</td></tr>
+       <tr><td><a href="DateHolidayInFranceValidator.php.html#20"><abbr title="OC\LouvreBundle\Validator\DateHolidayInFranceValidator::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DateHolidayInFranceValidator.php.html#25"><abbr title="OC\LouvreBundle\Validator\DateHolidayInFranceValidator::validate">validate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DaycloseValidator.php.html#19"><abbr title="OC\LouvreBundle\Validator\DaycloseValidator::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DaycloseValidator.php.html#24"><abbr title="OC\LouvreBundle\Validator\DaycloseValidator::validate">validate</abbr></a></td><td class="text-right">0%</td></tr>
 
        </tbody>
       </table>
@@ -133,8 +137,8 @@
         </tr>
        </thead>
        <tbody>
-       <tr><td><a href="DefaultController.php.html#39"><abbr title="OC\LouvreBundle\Controller\DefaultController::newCommandeAction">newCommandeAction</abbr></a></td><td class="text-right">10</td></tr>
-       <tr><td><a href="DefaultController.php.html#77"><abbr title="OC\LouvreBundle\Controller\DefaultController::stripePaymentAction">stripePaymentAction</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="DateHolidayInFranceValidator.php.html#25"><abbr title="OC\LouvreBundle\Validator\DateHolidayInFranceValidator::validate">validate</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="DaycloseValidator.php.html#24"><abbr title="OC\LouvreBundle\Validator\DaycloseValidator::validate">validate</abbr></a></td><td class="text-right">6</td></tr>
 
        </tbody>
       </table>
@@ -165,7 +169,7 @@ $(document).ready(function() {
       .yAxis.tickFormat(d3.format('d'));
 
     d3.select('#classCoverageDistribution svg')
-      .datum(getCoverageDistributionData([0,0,0,0,0,1,0,0,0,0,0,0], "Class Coverage"))
+      .datum(getCoverageDistributionData([2,0,0,0,0,0,0,0,0,0,0,2], "Class Coverage"))
       .transition().duration(500).call(chart);
 
     nv.utils.windowResize(chart.update);
@@ -183,7 +187,7 @@ $(document).ready(function() {
       .yAxis.tickFormat(d3.format('d'));
 
     d3.select('#methodCoverageDistribution svg')
-      .datum(getCoverageDistributionData([0,0,0,1,0,1,0,0,0,0,0,2], "Method Coverage"))
+      .datum(getCoverageDistributionData([4,0,0,0,0,0,0,0,0,0,0,0], "Method Coverage"))
       .transition().duration(500).call(chart);
 
     nv.utils.windowResize(chart.update);
@@ -233,7 +237,7 @@ $(document).ready(function() {
     chart.yAxis.axisLabel('Cyclomatic Complexity');
 
     d3.select('#classComplexity svg')
-      .datum(getComplexityData([[42.857142857142854,10,"<a href=\"DefaultController.php.html#17\">OC\\LouvreBundle\\Controller\\DefaultController<\/a>"]], 'Class Complexity'))
+      .datum(getComplexityData([[100,0,"<a href=\"DateHolidayInFrance.php.html#17\">OC\\LouvreBundle\\Validator\\DateHolidayInFrance<\/a>"],[0,3,"<a href=\"DateHolidayInFranceValidator.php.html#16\">OC\\LouvreBundle\\Validator\\DateHolidayInFranceValidator<\/a>"],[100,0,"<a href=\"Dayclose.php.html#19\">OC\\LouvreBundle\\Validator\\Dayclose<\/a>"],[0,3,"<a href=\"DaycloseValidator.php.html#15\">OC\\LouvreBundle\\Validator\\DaycloseValidator<\/a>"]], 'Class Complexity'))
       .transition()
       .duration(500)
       .call(chart);
@@ -257,7 +261,7 @@ $(document).ready(function() {
     chart.yAxis.axisLabel('Method Complexity');
 
     d3.select('#methodComplexity svg')
-      .datum(getComplexityData([[100,1,"<a href=\"DefaultController.php.html#24\">OC\\LouvreBundle\\Controller\\DefaultController::indexAction<\/a>"],[40,5,"<a href=\"DefaultController.php.html#39\">OC\\LouvreBundle\\Controller\\DefaultController::newCommandeAction<\/a>"],[28.57142857142857,3,"<a href=\"DefaultController.php.html#77\">OC\\LouvreBundle\\Controller\\DefaultController::stripePaymentAction<\/a>"],[100,1,"<a href=\"DefaultController.php.html#118\">OC\\LouvreBundle\\Controller\\DefaultController::cancelCommande<\/a>"]], 'Method Complexity'))
+      .datum(getComplexityData([[0,1,"<a href=\"DateHolidayInFranceValidator.php.html#20\">OC\\LouvreBundle\\Validator\\DateHolidayInFranceValidator::__construct<\/a>"],[0,2,"<a href=\"DateHolidayInFranceValidator.php.html#25\">OC\\LouvreBundle\\Validator\\DateHolidayInFranceValidator::validate<\/a>"],[0,1,"<a href=\"DaycloseValidator.php.html#19\">OC\\LouvreBundle\\Validator\\DaycloseValidator::__construct<\/a>"],[0,2,"<a href=\"DaycloseValidator.php.html#24\">OC\\LouvreBundle\\Validator\\DaycloseValidator::validate<\/a>"]], 'Method Complexity'))
       .transition()
       .duration(500)
       .call(chart);

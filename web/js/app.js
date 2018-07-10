@@ -1,6 +1,6 @@
 $(function() {
   $(".btn-horaires").on( "click", function() {
-    $('#horaires').removeClass("hide");
+    $("#horaires").removeClass("hide");
   });
   $(".btn-tarifs").on( "click", function() {
     $("#tarifs").removeClass("hide");

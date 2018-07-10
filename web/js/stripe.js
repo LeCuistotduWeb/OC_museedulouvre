@@ -1,5 +1,5 @@
 // Create a Stripe client.
-var stripe = Stripe('pk_test_NWoQtnJnX77gNFx3aI1hY6Rj');
+var stripe = Stripe("pk_test_NWoQtnJnX77gNFx3aI1hY6Rj");
 
 // Create an instance of Elements.
 var elements = stripe.elements();
@@ -11,7 +11,7 @@ var style = {
         color: "#32325d",
         lineHeight: "18px",
         fontFamily: "'Helvetica Neue', Helvetica, sans-serif",
-        fontSmoothing: 'antialiased',
+        fontSmoothing: "antialiased",
         fontSize: "16px",
         "::placeholder": {
             color: "#aab7c4"
@@ -37,7 +37,7 @@ card.addEventListener("change", function (event) {
     if (event.error) {
         displayError.textContent = event.error.message;
     } else {
-        displayError.textContent = '';
+        displayError.textContent = "";
     }
 });
 

@@ -56,16 +56,6 @@ class DefaultControllerTest extends WebTestCase
 //    /**
 //     * @test
 //     */
-//    public function viewMailIsUp()
-//    {
-//        $client = static::createClient();
-//        $client->request('GET', '/mail/1');
-//        $this->assertSame(200, $client->getResponse()->getStatusCode());
-//    }
-
-//    /**
-//     * @test
-//     */
 //    public function newCommandeTestBilleterie(){
 //        $client = static::createClient();
 //        $crawler = $client->request('GET', '/order');

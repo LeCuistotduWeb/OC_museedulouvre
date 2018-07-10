@@ -78,7 +78,6 @@ class DefaultController extends Controller
     {
         $session = $request->getSession();
         $commande = $session->get('commande');
-        dump($commande);
         if($commande != null) {
 
             // recupèration du token

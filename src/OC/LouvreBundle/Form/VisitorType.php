@@ -41,7 +41,7 @@ class VisitorType extends AbstractType
                 'preferred_choices' => array('FR'),
             ])
             ->add('reduction', CheckboxType::class, [
-                'label' => 'Je bénéficie d\'un tarif réduit.',
+                'label' => 'Je bénéficie d\'un tarif réduit. (étudiant, employé du musée, d’un service du Ministère de la Culture, militaire…).',
                 'required' => false,
             ]);
     }/**

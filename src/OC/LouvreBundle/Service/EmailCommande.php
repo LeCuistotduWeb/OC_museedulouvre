@@ -34,7 +34,7 @@ class EmailCommande extends \Twig_Extension
         // mail
         $mail = (new \Swift_Message())
             ->setSubject('Vos Billets - Musee du LOUVRE')
-            ->setFrom('contact@louvre.fr')
+            ->setFrom(['contact@gaetanboyron.fr' => 'Musée du Louvre | Billeterie'])
             ->setTo($commande->getEmailSend())
             ->setBody($this->templating->render('Email/emailCommande.html.twig',
                 [
@@ -45,7 +45,7 @@ class EmailCommande extends \Twig_Extension
             ->setContentType("text/html");
 
         // envoi du mail
-        return $this->mailer->send($mail);
+        $this->mailer->send($mail);
     }
 
 //    /**

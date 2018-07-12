@@ -23,7 +23,7 @@ class DefaultController extends Controller
      */
     public function indexAction(): Response
     {
-        return $this->render('default/index.html.twig', [
+        return $this->render('Default/index.html.twig', [
             'prices' => $this->getParameter('prices'),
             'limitHalfDay' => $this->getParameter('limitHalfDay'),
         ]);

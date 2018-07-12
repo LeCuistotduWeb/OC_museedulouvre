@@ -178,7 +178,7 @@ class CommandeService
     public function hourHalfDay():bool {
         date_default_timezone_set('Europe/Paris');
         $dt = new \DateTime();
-        $hour = $dt->format("H");
+        $hour = $dt->format("H-i");
         $limitHour = $this->limiHalfDay;
         return $hour > $limitHour;
     }
@@ -189,7 +189,9 @@ class CommandeService
      * @return bool
      */
     public function dateVisiteIsDateToday($dateVisite){
-        $today = $this->today->format('Y-m-d');
+      date_default_timezone_set('Europe/Paris');
+        $today = new \DateTime();
+        $today = $today->format('Y-m-d');
         $dateVisite = $dateVisite->format('Y-m-d');
         $result = $dateVisite == $today;
         if($result == true){

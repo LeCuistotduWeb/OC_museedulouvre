@@ -10,7 +10,7 @@ parameters:
         halfday: 10
 
     maxTicketPerDay: 1000
-    limitHalfDay: 14
+    limitHalfDay: '14-00'
 
 services:
     # Default configuration for services in *this* file

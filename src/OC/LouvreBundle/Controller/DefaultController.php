@@ -95,7 +95,7 @@ class DefaultController extends Controller
                 // envoi de la commande par mail
                 $emailCommande->sendMail($commande);
                 // message success validation de commande
-                $this->addFlash('success', 'Votre commande est bien enregistrée. Vos billets on été envoyés par email.');
+                $this->addFlash('success', 'Votre commande est bien enregistrée. Vos billets on été envoyés à l\'adresse '. $commande->getEmailSend() .'.');
                 $session->remove('commande');
 
                 return $this->redirectToRoute('oc_louvre_homepage');

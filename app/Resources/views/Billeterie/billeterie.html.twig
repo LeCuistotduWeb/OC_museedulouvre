@@ -13,7 +13,7 @@
                 {{ parent() }}
             {% endblock %}
             {# /messageFlash #}
-            <h1>Musée du
+            <h1 class="my-5">Musée du
                 <br>
                 <span>LOUVRE</span>
             </h1>
@@ -43,6 +43,8 @@
                     {{ form_errors(form.emailSend) }}
                     {{ form_widget(form.emailSend, {'attr': {'class': 'form-control'}}) }}
                 </div>
+
+                <p>Il sera nécessaire de présenter sa carte d’étudiant, militaire ou équivalent lors de l’entrée pour prouver qu’on bénéficie bien du tarif réduit.</p>
 
                 {#{{ form_widget(form.save, {'attr': {'class': 'btn btn-lg btn-warning my-3 float-right text-white'}}) }}#}
                 <input type="submit" class="btn btn-lg btn-warning my-3 float-right text-white">

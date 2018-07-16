@@ -20,8 +20,8 @@ class CommandeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('dateVisite', DateType::class, 
-            [ 
+            ->add('dateVisite', DateType::class,
+            [
                 'widget' => 'single_text',
                 'html5' => false,
                 'attr' => ['class' => 'datepicker','placeholder' => 'Date de votre visite'],
@@ -36,14 +36,14 @@ class CommandeType extends AbstractType
                 'by_reference' => false,
                 'prototype' => true,
             ])
-            
+
             ->add('emailSend', RepeatedType::class,[
                 'type' => EmailType::class,
                 'invalid_message' => 'Les emails ne sont pas identique.',
                 'first_options'  => array('label' => 'Email de réception des billets'),
                 'second_options' => array('label' => 'Confirmer l\'adress email de reception '),
             ]);
-            
+
 //            ->add('save', SubmitType::class, array('label' => 'Suivant'));
     }
     /**
